@@ -2,13 +2,13 @@
   "name": "feathers-arangodb",
   "description": "Feathers ArangoDB service",
   "version": "1.0.0",
-  "homepage": "https://github.com/feathersjs-ecosystem/feathers-arangodb",
+  "homepage": "https://github.com/Brian-McBride/feathers-arangodb",
   "repository": {
     "type": "git",
-    "url": "git://github.com/feathersjs-ecosystem/feathers-arangodb.git"
+    "url": "git://github.com/Brian-McBride/feathers-arangodb.git"
   },
   "bugs": {
-    "url": "https://github.com/feathersjs-ecosystem/feathers-arangodb/issues"
+    "url": "https://github.com/Brian-McBride/feathers-arangodb/issues"
   },
   "license": "MIT",
   "keywords": [
@@ -22,15 +22,14 @@
     "service"
   ],
   "author": {
-    "name": "Feathers contributors",
-    "email": "hello@feathersjs.com",
-    "url": "http://feathersjs.com"
+    "name": "Brian McBride",
+    "email": "brianmcbride@outlook.com"
   },
   "contributors": [
+    "Brian McBride <brianmcbride@outlook.com>",
     "Eric Kryski <e.kryski@gmail.com> (http://erickryski.com)",
     "David Luecke <daff@neyeon.de> (http://neyeon.com)",
-    "Marshall Thompson <marshall@creativeideal.net>",
-    "Brian McBride <brianmcbride@outlook.com>"
+    "Marshall Thompson <marshall@creativeideal.net>"
   ],
   "main": "lib/",
   "scripts": {
