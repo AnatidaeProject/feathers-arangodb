@@ -4,10 +4,7 @@ node_js:
   - node
   - '6'
 env:
-  - ARANGODB_VERSION=2.8 ARANGO_VERSION=20800
-  - ARANGODB_VERSION=3.0 ARANGO_VERSION=30000
-  - ARANGODB_VERSION=3.1 ARANGO_VERSION=30100
-  - ARANGODB_VERSION=devel ARANGO_VERSION=30200
+  - ARANGODB_VERSION=3.3 ARANGO_VERSION=30300
 before_install:
   - curl https://www.arangodb.com/repositories/travisCI/setup_arangodb_${ARANGODB_VERSION}.sh | bash
 script:
