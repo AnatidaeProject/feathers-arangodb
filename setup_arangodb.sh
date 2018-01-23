@@ -6,10 +6,12 @@ cd $DIR
 VERSION=3.3.2
 NAME=ArangoDB-$VERSION
 
+FULLPATH=https://download.arangodb.com/travisCI/ArangoDB-3.3.2.tar.gz
+
 if [ ! -d "$DIR/$NAME" ]; then
   # download ArangoDB
-  echo "curl -L -o $NAME.tar.gz https://www.arangodb.org/repositories/travisCI/$NAME.tar.gz"
-  curl -L -o $NAME.tar.gz https://www.arangodb.org/repositories/travisCI/$NAME.tar.gz
+  echo "curl -L -o $NAME.tar.gz $FULLPATH"
+  curl -L -o $NAME.tar.gz $FULLPATH
   echo "tar zxf $NAME.tar.gz"
   tar zvxf $NAME.tar.gz
 fi

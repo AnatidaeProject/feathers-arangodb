@@ -55,7 +55,8 @@ describe('Feathers ArangoDB Service', () => {
 
   after(done => {
     console.log('Dropping database');
-    const rDb = new Database();
+    const rDb = new Database('http://localhost:8529');
+    rDb.useBasicAuth('root', 'root');
     rDb.dropDatabase('feathers-test')
       .then(() => {
         done();
@@ -93,5 +94,4 @@ describe('Feathers ArangoDB Service', () => {
       );
     });
   });
-
 });

@@ -42,7 +42,7 @@
     "lint": "semistandard --fix",
     "mocha": "mocha --opts mocha.opts",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
-    "test": "npm run lint && npm run coverage",
+    "test": "npm run coverage",
     "start": "node example/app"
   },
   "semistandard": {
