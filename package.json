@@ -1,0 +1,74 @@
+{
+  "name": "feathers-arangodb",
+  "description": "Feathers ArangoDB service",
+  "version": "1.0.0",
+  "homepage": "https://github.com/feathersjs-ecosystem/feathers-arangodb",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feathersjs-ecosystem/feathers-arangodb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feathersjs-ecosystem/feathers-arangodb/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "feathers",
+    "feathers-plugin",
+    "REST",
+    "Socket.io",
+    "realtime",
+    "arango",
+    "arangodb",
+    "service"
+  ],
+  "author": {
+    "name": "Feathers contributors",
+    "email": "hello@feathersjs.com",
+    "url": "http://feathersjs.com"
+  },
+  "contributors": [
+    "Eric Kryski <e.kryski@gmail.com> (http://erickryski.com)",
+    "David Luecke <daff@neyeon.de> (http://neyeon.com)",
+    "Marshall Thompson <marshall@creativeideal.net>",
+    "Brian McBride <brianmcbride@outlook.com>"
+  ],
+  "main": "lib/",
+  "scripts": {
+    "publish": "git push origin --tags && npm run changelog && git push origin",
+    "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "lint": "semistandard --fix",
+    "mocha": "mocha --opts mocha.opts",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
+    "test": "npm run lint && npm run coverage",
+    "start": "node example/app"
+  },
+  "semistandard": {
+    "env": [
+      "mocha"
+    ]
+  },
+  "engines": {
+    "node": ">= 6"
+  },
+  "dependencies": {
+    "@feathersjs/commons": "^1.3.0",
+    "@feathersjs/errors": "^3.2.0",
+    "clone-deep": "^3.0.1",
+    "uberproto": "^1.2.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@feathersjs/express": "^1.1.2",
+    "@feathersjs/feathers": "^3.0.1",
+    "@feathersjs/socketio": "^3.0.1",
+    "chai": "^4.0.0",
+    "feathers-service-tests": "^0.10.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^5.0.0",
+    "arangojs": "^6.0.1",
+    "semistandard": "^12.0.0"
+  }
+}
