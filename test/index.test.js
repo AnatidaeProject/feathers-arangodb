@@ -15,7 +15,7 @@ describe('Feathers ArangoDB Service', () => {
 
   before(done => {
     db = new Database('http://localhost:8529');
-    db.useBasicAuth('root', '');
+    db.useBasicAuth('root', 'root');
 
     db.createDatabase('feathers-test', [{username: 'root'}])
       .then(() => {
