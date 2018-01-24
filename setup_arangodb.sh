@@ -13,7 +13,7 @@ if [ ! -d "$DIR/$NAME" ]; then
   echo "curl -L -o $NAME.tar.gz $FULLPATH"
   curl -L -o $NAME.tar.gz $FULLPATH
   echo "tar zxf $NAME.tar.gz"
-  tar zvxf $NAME.tar.gz
+  tar zxf $NAME.tar.gz
 fi
 
 ARCH=$(arch)
