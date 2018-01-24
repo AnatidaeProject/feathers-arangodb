@@ -10,7 +10,7 @@ before_install:
 - chmod +x setup_arangodb.sh
 - ./setup_arangodb.sh
 script:
-  - yarn run dist && yarn run ci
+  - yarn run test
 after_script:
   - kill -9 $(pgrep arangod)
 cache:
