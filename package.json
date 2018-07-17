@@ -1,7 +1,7 @@
 {
   "name": "feathers-arangodb",
   "description": "Feathers ArangoDB service",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "homepage": "https://github.com/Brian-McBride/feathers-arangodb",
   "repository": {
     "type": "git",
@@ -40,7 +40,8 @@
     "release:major": "npm version major && npm publish",
     "lint": "semistandard --fix",
     "mocha": "mocha --opts mocha.opts",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
+    "coverage": "nyc node_modules/mocha/bin/_mocha",
+    "coverage:old": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
     "test": "npm run coverage",
     "start": "node example/app"
   },
@@ -67,8 +68,8 @@
     "chai": "^4.1.2",
     "expect.js": "^0.3.1",
     "feathers-service-tests": "^0.10.2",
-    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "semistandard": "^12.0.1"
   }
 }
