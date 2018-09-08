@@ -18,7 +18,7 @@ $ npm install --save arangojs feathers-arangodb
 
 ## Initalization File
 
-Now create a file to use in feathersJS intializatoin (i.e. arangodb.js).
+Now create a file to use in feathersJS initialization (i.e. arangodb.js).
 
 ```javascript
 const Database = require('arangojs').Database;
@@ -63,7 +63,7 @@ app.configure(arangodb);
 ```
 
 ## Create a service
-You can create your service. Note that you do need to init the database which will verify and create the specified colleciton.
+You can create your service. Note that you do need to init the database which will verify and create the specified collection.
 ```javascript
 const createService = require('../../connectors/feathers-arangodb');
 const hooks = require('./someservice.hooks');
@@ -88,6 +88,44 @@ module.exports = function (app) {
 
   service.hooks(hooks);
 };
+```
+
+## Custom AQL Queries
+There is a lot that ArangoDB can do beyond the simple CRUD that feathers exposes.
+The method `query` on the service is a straight pass-through to the ArangoJS Query. 
+It returns a cursor object as expected.
+https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/Queries.html#aql
+####To Use:
+An in creating custom hooks in the file `someservice.hooks`.
+Read more about creating hooks in the feathers docs: https://docs.feathersjs.com/api/hooks.html
+```javascript
+module.exports = {
+                   before: {
+                     get: [
+                       async function(context) {
+                       
+                         // Create a query
+                         let queryString = aql`
+                                   FOR user IN people
+                                   FILTER user.name == "Nancy"
+                                   RETURN user
+                                 `;
+                         
+                         // Get the cursor
+                         let cursor = await context.service.query(queryString);
+                         
+                         // Do something with it - in this case, get all the data in an array
+                         let data = await cursor.all();
+                         
+                         // Update the result (the message)
+                         context.result.user = data;
+                         
+                         // Returning will resolve the promise with the `context` object
+                         return context;
+                       }
+                     ]
+                   }
+                 }
 ```
 
 Copyright (c) 2018

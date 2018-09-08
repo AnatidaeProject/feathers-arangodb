@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased](https://github.com/Brian-McBride/feathers-arangodb/tree/HEAD)
+## [Released](https://github.com/Brian-McBride/feathers-arangodb/tree/HEAD)
 
 **Merged pull requests:**
 

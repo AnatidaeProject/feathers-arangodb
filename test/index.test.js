@@ -3,6 +3,7 @@ const { base } = require('feathers-service-tests');
 
 // const { MongoClient, ObjectID } = require('mongodb');
 const Database = require('arangojs').Database;
+const aql = require('arangojs').aql;
 
 const feathers = require('@feathersjs/feathers');
 const errors = require('@feathersjs/errors');
@@ -71,6 +72,44 @@ describe('Feathers ArangoDB Service', () => {
   it('is CommonJS compatible', () =>
     expect(typeof require('../lib')).to.equal('function')
   );
+
+  describe('Custom AQL queries in Find', () => {
+    let _ids = {};
+    beforeEach(function () {
+      return app.service('people').create({
+        name: 'Nancy',
+        age: 22
+      }).then(function (nancy) {
+        _ids.Nancy = nancy['_id'].toString();
+        return app.service('people').create({
+          name: 'Mary',
+          age: 45
+        });
+      }).then(function (mary) {
+        return _ids.Mary = mary['_id'].toString();
+      });
+    });
+    afterEach(function () {
+      return app.service('people').remove(_ids.Nancy).then(function () {
+        return app.service('people').remove(_ids.Mary);
+      });
+    });
+
+    it('Accepts AQL as a find query', () => {
+      let query = aql`
+          FOR user IN people
+          FILTER user.name == "Nancy"
+          RETURN user
+        `;
+      app.service('people').query(query)
+        .then(cursor => cursor.all().then(result => {
+          expect(result).to.not.equal('undefined');
+          expect(Array.isArray(result)).to.equal(true);
+          expect(result[0].name).to.equal('Nancy');
+        }))
+    });
+
+  });
 
   base(app, errors, 'people', '_id');
   base(app, errors, 'people-customid', 'customid');
