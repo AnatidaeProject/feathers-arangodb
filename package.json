@@ -54,7 +54,7 @@
     "node": ">= 6"
   },
   "dependencies": {
-    "@feathersjs/commons": "^1.4.4",
+    "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.2",
     "clone-deep": "^4.0.0",
     "uberproto": "^2.0.4",
