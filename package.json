@@ -55,21 +55,21 @@
   },
   "dependencies": {
     "@feathersjs/commons": "^1.4.4",
-    "@feathersjs/errors": "^3.3.2",
+    "@feathersjs/errors": "^3.3.4",
     "clone-deep": "^4.0.0",
     "uberproto": "^2.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@feathersjs/express": "^1.2.5",
-    "@feathersjs/feathers": "^3.2.1",
-    "@feathersjs/socketio": "^3.2.4",
-    "arangojs": "^6.6.0",
-    "chai": "^4.1.2",
+    "@feathersjs/express": "^1.2.7",
+    "@feathersjs/feathers": "^3.2.3",
+    "@feathersjs/socketio": "^3.2.6",
+    "arangojs": "^6.7.0",
+    "chai": "^4.2.0",
     "expect.js": "^0.3.1",
     "feathers-service-tests": "^0.10.2",
     "mocha": "^5.2.0",
-    "nyc": "^13.0.1",
+    "nyc": "^13.1.0",
     "semistandard": "^12.0.1"
   }
 }
