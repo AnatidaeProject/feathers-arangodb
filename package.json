@@ -63,7 +63,7 @@
   "devDependencies": {
     "@feathersjs/express": "^1.2.7",
     "@feathersjs/feathers": "^3.2.3",
-    "@feathersjs/socketio": "^3.2.6",
+    "@feathersjs/socketio": "^3.2.7",
     "arangojs": "^6.7.0",
     "chai": "^4.2.0",
     "expect.js": "^0.3.1",
