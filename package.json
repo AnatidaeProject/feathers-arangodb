@@ -64,7 +64,7 @@
     "@feathersjs/express": "^1.2.7",
     "@feathersjs/feathers": "^3.2.3",
     "@feathersjs/socketio": "^3.2.6",
-    "arangojs": "^6.7.0",
+    "arangojs": "^6.8.0",
     "chai": "^4.2.0",
     "expect.js": "^0.3.1",
     "feathers-service-tests": "^0.10.2",
