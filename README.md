@@ -79,15 +79,25 @@ console.log('Listening on port 8080');
 #### Database Options  
 
 **id** *(optional)* : String : Translated ID key value in payloads. Actual storage in database is saved in the `_key` key/value within ArangoDB. Defaults to `_key`
+
 **expandData** *(optional)* : Boolean : Adapter filters out `_rev` and `_id` from ArangoDB. Setting expandData to true will include these in the payload results. Defaults to `false`
+
 **collection** *(required)* : DocumentCollection | String : Either a string name of a collection, which will be created if it doesn't exist in database, or a reference to an existing arangoDB collection object.
+
 **database** *(required)* : Database | String : Either a string name of a database, which will be created if it doesn't exist on the ArangoDB server, or a reference to an existing ArangoDB database object.
+
 **authType** *(optional)* :  String : String value of either `BASIC_AUTH` or `BEARER_AUTH`. Used to define the type of auth to ArangoDB ([see documentation](https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/#databaseusebasicauth)). Defaults to `BASIC_AUTH`
+
 **username** *(optional)* :  String : Used for auth, plaintext username
+
 **password** *(optional)* :  String : Used for auth, plaintext password
+
 **token** *(optional)* :  String : If token is supplied, auth uses token instead of username/password.
+
 **dbConfig** *(optional)* :  ArangoDbConfig : ArangoDB Config file for a new database. [See Documentation](https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/#new-database)
+
 **events** *(optional)* :  Array : FeathersJS Events - [See Documentation](https://docs.feathersjs.com/api/events.html)
+
 **paginate** *(optional)* :  FeathersJS Paginate : FeathersJS Paginate - [See Documentation](https://docs.feathersjs.com/api/databases/common.html#pagination)
   
 Copyright (c) 2018  
