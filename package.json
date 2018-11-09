@@ -1,8 +1,11 @@
 {
   "name": "feathers-arangodb",
-  "description": "Feathers ArangoDB service",
-  "version": "1.1.0",
+  "version": "2.0.0",
+  "description": "ArangoDB Service/Adapter for FeathersJS",
   "homepage": "https://github.com/Brian-McBride/feathers-arangodb",
+  "main": "lib/",
+  "types": "lib/",
+  "author": "Brian McBride",
   "repository": {
     "type": "git",
     "url": "git://github.com/Brian-McBride/feathers-arangodb.git"
@@ -21,17 +24,6 @@
     "arangodb",
     "service"
   ],
-  "author": {
-    "name": "Brian McBride",
-    "email": "brianmcbride@outlook.com"
-  },
-  "contributors": [
-    "Brian McBride <brianmcbride@outlook.com>",
-    "Eric Kryski <e.kryski@gmail.com> (http://erickryski.com)",
-    "David Luecke <daff@neyeon.de> (http://neyeon.com)",
-    "Marshall Thompson <marshall@creativeideal.net>"
-  ],
-  "main": "lib/",
   "scripts": {
     "publish": "git push origin --tags && npm run changelog && git push origin",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
@@ -43,7 +35,7 @@
     "coverage": "nyc node_modules/mocha/bin/_mocha",
     "coverage:old": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
     "test": "npm run coverage",
-    "start": "node example/app"
+    "build": "tsc"
   },
   "semistandard": {
     "env": [
@@ -54,22 +46,42 @@
     "node": ">= 6"
   },
   "dependencies": {
-    "@feathersjs/commons": "^1.4.4",
+    "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.4",
-    "clone-deep": "^4.0.0",
+    "arangojs": "^6.9.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isboolean": "^3.0.3",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isnumber": "^3.0.3",
+    "lodash.isstring": "^4.0.1",
+    "lodash.omit": "^4.5.0",
     "uberproto": "^2.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@feathersjs/express": "^1.2.7",
     "@feathersjs/feathers": "^3.2.3",
-    "@feathersjs/socketio": "^3.2.6",
-    "arangojs": "^6.7.0",
-    "chai": "^4.2.0",
-    "expect.js": "^0.3.1",
-    "feathers-service-tests": "^0.10.2",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "semistandard": "^12.0.1"
+    "@types/feathersjs__errors": "^3.2.1",
+    "@types/feathersjs__express": "^1.1.4",
+    "@types/feathersjs__feathers": "^3.0.5",
+    "@types/feathersjs__socketio": "^3.0.3",
+    "@types/jest": "^23.3.9",
+    "@types/lodash.get": "^4.4.4",
+    "@types/lodash.isboolean": "^3.0.4",
+    "@types/lodash.isempty": "^4.4.4",
+    "@types/lodash.isnumber": "^3.0.4",
+    "@types/lodash.isstring": "^4.0.4",
+    "@types/lodash.omit": "^4.5.4",
+    "@types/uuid": "^3.4.4",
+    "eslint": "^5.8.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
+    "jest-runner-tslint": "^1.0.5",
+    "nodemon": "^1.18.6",
+    "prettier": "^1.15.1",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^3.1.6"
   }
 }
