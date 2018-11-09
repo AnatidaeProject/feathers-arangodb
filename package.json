@@ -31,9 +31,7 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "lint": "semistandard --fix",
-    "mocha": "mocha --opts mocha.opts",
-    "coverage": "nyc node_modules/mocha/bin/_mocha",
-    "coverage:old": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
+    "coverage": "jest",
     "test": "npm run coverage",
     "build": "tsc"
   },
@@ -77,6 +75,7 @@
     "jest-junit": "^5.2.0",
     "jest-runner-tslint": "^1.0.5",
     "nodemon": "^1.18.6",
+    "nyc": "^13.1.0",
     "prettier": "^1.15.1",
     "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
