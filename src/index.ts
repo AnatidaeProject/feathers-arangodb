@@ -78,10 +78,13 @@ export class DbService {
   private _paginate: Paginate;
   constructor(options: IOptions) {
     // Runtime checks
+    /* istanbul ignore next */
     if (!options.collection)
       throw new Error("A collection reference or name is required");
+    /* istanbul ignore next */
     if (!options.database)
       throw new Error("A database reference or name is required");
+    /* istanbul ignore next */
     if (options.id && ["_rev"].indexOf(options.id) !== -1)
       throw new Error(`Database id name of ${options.id} is a reserved key`);
     this._id = options.id || "_id";
