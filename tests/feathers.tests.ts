@@ -1,6 +1,6 @@
 import feathers from '@feathersjs/feathers';
 import { Application, Service } from 'feathersjs__feathers';
-import errors from '@feathersjs/errors';
+import { NotFound } from '@feathersjs/errors';
 import ArangoDbService, { IArangoDbService, AUTH_TYPES } from '../src';
 import { AutoDatabse } from '../src/auto-database';
 import { escapeRegExp } from 'tslint/lib/utils';
@@ -149,7 +149,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
           throw Error('Should NOT succeed!!!');
         })
         .catch(error => {
-          expect(error instanceof errors.NotFound).toBeTruthy();
+          expect(error instanceof NotFound).toBeTruthy();
           expect(error.message).toEqual(`No record found for id '${badId}'`);
           done();
         });
@@ -458,7 +458,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       const newData:any = { name: 'NotFound'};
       newData[idProp] = badId;
       await service.update(badId, newData).catch( error => {
-        expect(error instanceof errors.NotFound).toBeTruthy();
+        expect(error instanceof NotFound).toBeTruthy();
         expect(error.message).toEqual(`No record found for id '${badId}'`);
         done();
       })
@@ -525,7 +525,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       const newData:any = { name: 'NotFound'};
       newData[idProp] = badId;
       await service.patch(badId, newData).catch( error => {
-        expect(error instanceof errors.NotFound).toBeTruthy();
+        expect(error instanceof NotFound).toBeTruthy();
         expect(error.message).toEqual(`No record found for id '${badId}'`);
         done();
       })

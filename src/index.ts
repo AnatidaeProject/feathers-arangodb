@@ -1,20 +1,20 @@
-import { AutoDatabse } from "./auto-database";
+import { NotFound } from "@feathersjs/errors";
 import { Database, DocumentCollection } from "arangojs";
+import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
+import { AqlQuery } from "arangojs/lib/cjs/aql-query";
 import {
   Application,
-  Params,
+  Id,
   NullableId,
   Paginated,
-  Id,
+  Params,
   Service
 } from "feathersjs__feathers";
-import errors from "@feathersjs/errors";
-import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
+import _isEmpty from "lodash.isempty";
 import isString from "lodash.isstring";
 import omit from "lodash.omit";
-import _isEmpty from "lodash.isempty";
 import uuid from "uuid/v4";
-import { AqlQuery } from "arangojs/lib/cjs/aql-query";
+import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
 
 export declare type ArangoDbConfig =
@@ -40,10 +40,15 @@ export enum AUTH_TYPES {
   BEARER_AUTH
 }
 
-export declare type Paginate = {
+export declare interface Paginate {
   max?: number;
   default?: number;
-};
+}
+
+export interface IConnectResponse {
+  database: AutoDatabse;
+  collection: DocumentCollection;
+}
 
 export interface IOptions {
   id?: string;
@@ -55,23 +60,23 @@ export interface IOptions {
   password?: string;
   token?: string;
   dbConfig?: ArangoDbConfig;
-  events?: Array<any>;
+  events?: any[];
   paginate?: Paginate;
 }
 
 export interface IArangoDbService<T> extends Service<T> {
-  events: Array<any>;
+  events: any[];
   paginate: Paginate;
   readonly id: string;
   readonly database: Database;
   readonly collection: DocumentCollection;
-  connect(): Promise<void>;
+  connect(): Promise<IConnectResponse>;
   setup(): Promise<void>;
 }
 
 export class DbService {
-  public events: Array<any> = [];
-  readonly options: IOptions;
+  public events: any[] = [];
+  public readonly options: IOptions;
   private readonly _id: string;
   private _database: AutoDatabse | undefined;
   private _collection: DocumentCollection | undefined;
@@ -79,14 +84,17 @@ export class DbService {
   constructor(options: IOptions) {
     // Runtime checks
     /* istanbul ignore next */
-    if (!options.collection)
+    if (!options.collection) {
       throw new Error("A collection reference or name is required");
+    }
     /* istanbul ignore next */
-    if (!options.database)
+    if (!options.database) {
       throw new Error("A database reference or name is required");
+    }
     /* istanbul ignore next */
-    if (options.id && ["_rev"].indexOf(options.id) !== -1)
+    if (options.id && ["_rev"].indexOf(options.id) !== -1) {
       throw new Error(`Database id name of ${options.id} is a reserved key`);
+    }
     this._id = options.id || "_id";
     this.events = options.events || this.events;
     this._paginate = options.paginate || {};
@@ -107,10 +115,7 @@ export class DbService {
     }
   }
 
-  async connect(): Promise<{
-    database: AutoDatabse;
-    collection: DocumentCollection;
-  }> {
+  public async connect(): Promise<IConnectResponse> {
     /* istanbul ignore next */
     if (this._database === undefined) {
       this._database = new AutoDatabse();
@@ -128,13 +133,12 @@ export class DbService {
           }
           break;
       }
-      await this._database.autoUseDatabase(<string>this.options.database);
+      await this._database.autoUseDatabase(this.options.database as string);
     }
 
     if (this._collection === undefined) {
-      this._collection = await this._database.autoCollection(<string>(
-        this.options.collection
-      ));
+      this._collection = await this._database.autoCollection(this.options
+        .collection as string);
     }
 
     return {
@@ -163,11 +167,12 @@ export class DbService {
     this._paginate = option || this._paginate;
   }
 
-  _injectPagination(params: Params): Params {
+  public _injectPagination(params: Params): Params {
     params = params || {};
-    if (_isEmpty(this._paginate) || (params && params.paginate) === false)
+    if (_isEmpty(this._paginate) || (params && params.paginate) === false) {
       return params;
-    const paginate = <Paginate>params.paginate || this._paginate;
+    }
+    const paginate = (params.paginate as Paginate) || this._paginate;
     params.query = params.query || {};
     let limit = parseInt(params.query.$limit);
     limit =
@@ -179,26 +184,28 @@ export class DbService {
     return params;
   }
 
-  fixKeySend<T>(data: T | Array<T>): Partial<T> | Array<Partial<T>> {
+  public fixKeySend<T>(data: T | T[]): Partial<T> | Array<Partial<T>> {
     data = Array.isArray(data) ? data : [data];
-    if (data.length < 1) return data;
-    return <Array<Partial<T>>>data.map((item: any) => {
-      let id = item[this._id] || uuid();
-      return Object.assign({ _key: id }, omit(item, "_id", "_rev", "_key"));
-    });
+    if (data.length < 1) {
+      return data;
+    }
+    return data.map((item: any) => {
+      const id = item[this._id] || uuid();
+      return { _key: id, ...omit(item, "_id", "_rev", "_key") };
+    }) as Array<Partial<T>>;
   }
 
-  fixKeyReturn(item: any): any {
+  public fixKeyReturn(item: any): any {
     const idObj: any = {};
     idObj[this._id] = item._key;
     const removeKeys = [this._id, "_key"];
     if (!this.options.expandData) {
       removeKeys.push("_id", "_rev");
     }
-    return Object.assign(idObj, omit(item, removeKeys));
+    return { ...idObj, ...omit(item, removeKeys) };
   }
 
-  async _returnMap(
+  public async _returnMap(
     database: AutoDatabse,
     query: AqlQuery,
     errorMessage?: string,
@@ -214,14 +221,15 @@ export class DbService {
           error.errorNum === 1202 &&
           errorMessage
         ) {
-          throw new errors.NotFound(errorMessage);
+          throw new NotFound(errorMessage);
         } else {
           throw error;
         }
       });
-    let result: any[] = await cursor.map(item => this.fixKeyReturn(item));
-    if (result.length === 0 && errorMessage)
-      throw new errors.NotFound(errorMessage);
+    const result: any[] = await cursor.map(item => this.fixKeyReturn(item));
+    if (result.length === 0 && errorMessage) {
+      throw new NotFound(errorMessage);
+    }
     if (paging) {
       return {
         total: cursor.extra.stats.fullCount,
@@ -231,7 +239,7 @@ export class DbService {
     return result.length > 1 || !removeArray ? result : result[0];
   }
 
-  async find(params: Params): Promise<Array<any> | Paginated<any>> {
+  public async find(params: Params): Promise<any[] | Paginated<any>> {
     const { database, collection } = await this.connect();
     params = this._injectPagination(params);
     const queryBuilder = new QueryBuilder(params);
@@ -246,15 +254,13 @@ export class DbService {
       `,
       bindVars: queryBuilder.bindVars
     };
-    const result = <any>(
-      await this._returnMap(
-        database,
-        query,
-        undefined,
-        false,
-        !_isEmpty(this._paginate)
-      )
-    );
+    const result = (await this._returnMap(
+      database,
+      query,
+      undefined,
+      false,
+      !_isEmpty(this._paginate)
+    )) as any;
     if (!_isEmpty(this._paginate)) {
       return {
         total: result.total,
@@ -268,7 +274,7 @@ export class DbService {
     return result;
   }
 
-  async get(id: Id, params: Params) {
+  public async get(id: Id, params: Params) {
     const { database, collection } = await this.connect();
     const queryBuilder = new QueryBuilder(params);
     const query: AqlQuery = {
@@ -280,14 +286,13 @@ export class DbService {
       `,
       bindVars: queryBuilder.bindVars
     };
-    return await this._returnMap(
-      database,
-      query,
-      `No record found for id '${id}'`
-    );
+    return this._returnMap(database, query, `No record found for id '${id}'`);
   }
 
-  async create(data: Partial<any> | Array<Partial<any>>, params: Params) {
+  public async create(
+    data: Partial<any> | Array<Partial<any>>,
+    params: Params
+  ) {
     data = this.fixKeySend(data);
     const { database, collection } = await this.connect();
     const queryBuilder = new QueryBuilder(params);
@@ -300,12 +305,12 @@ export class DbService {
       `,
       bindVars: queryBuilder.bindVars
     };
-    return await this._returnMap(database, query);
+    return this._returnMap(database, query);
   }
 
-  async _replaceOrPatch(
+  public async _replaceOrPatch(
     fOpt = "REPLACE",
-    id: NullableId | Array<NullableId>,
+    id: NullableId | NullableId[],
     data: Partial<any>,
     params: Params
   ) {
@@ -338,36 +343,36 @@ export class DbService {
         bindVars: queryBuilder.bindVars
       };
     }
-    return await this._returnMap(
-      database,
-      query,
-      `No record found for id '${id}'`
-    );
+    return this._returnMap(database, query, `No record found for id '${id}'`);
   }
 
-  async update(
-    id: NullableId | Array<NullableId>,
+  public async update(
+    id: NullableId | NullableId[],
     data: Partial<any>,
     params: Params
   ) {
-    return await this._replaceOrPatch("REPLACE", id, data, params);
+    return this._replaceOrPatch("REPLACE", id, data, params);
   }
 
-  async patch(
-    id: NullableId | Array<NullableId>,
+  public async patch(
+    id: NullableId | NullableId[],
     data: Partial<any>,
     params: Params
   ) {
-    return await this._replaceOrPatch("UPDATE", id, data, params);
+    return this._replaceOrPatch("UPDATE", id, data, params);
   }
 
-  async remove(id: NullableId | Array<NullableId>, params: Params) {
+  public async remove(id: NullableId | NullableId[], params: Params) {
     // Eliminate null or empty clauses
     const ids: NullableId[] = Array.isArray(id) ? id : [id];
     // Setup connection & verify
     const { database, collection } = await this.connect();
-    if (!database) throw new Error("Database not initialized");
-    if (!collection) throw new Error("Collection not initialized");
+    if (!database) {
+      throw new Error("Database not initialized");
+    }
+    if (!collection) {
+      throw new Error("Collection not initialized");
+    }
     // Build query
     let query: AqlQuery;
     if (id && (!Array.isArray(id) || (Array.isArray(id) && id.length > 0))) {
@@ -396,14 +401,14 @@ export class DbService {
       };
     }
 
-    return await this._returnMap(database, query);
+    return this._returnMap(database, query);
     // let cursor: ArrayCursor;
     // cursor = await database.query(query);
     // let result: any[] = await cursor.map(item => this.fixKeyReturn(item));
     // return result.length > 1 ? result : result[0];
   }
 
-  async setup(app: Application, path: string) {
+  public async setup(app: Application, path: string) {
     await this.connect();
   }
 }

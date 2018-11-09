@@ -1,8 +1,8 @@
 {
   "name": "feathers-arangodb",
-  "version": "3.0.0",
+  "version": "2.0.1",
   "description": "ArangoDB Service/Adapter for FeathersJS",
-  "homepage": "https://github.com/Brian-McBride/feathers-arangodb",
+  "homepage": "https://github.com/AnatidaeProject/feathers-arangodb",
   "main": "lib/",
   "types": "lib/",
   "author": "Brian McBride",
@@ -37,11 +37,11 @@
   },
   "semistandard": {
     "env": [
-      "mocha"
+      "jest"
     ]
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 8"
   },
   "dependencies": {
     "@feathersjs/commons": "^3.0.1",
