@@ -1,5 +1,15 @@
 # Change Log
 
+## [Unreleased](https://github.com/AnatidaeProject/feathers-arangodb/tree/HEAD)
+
+[Full Changelog](https://github.com/AnatidaeProject/feathers-arangodb/compare/v3.0.0...HEAD)
+
+**Closed issues:**
+
+- An in-range update of arangojs is breaking the build 🚨 [\#9](https://github.com/AnatidaeProject/feathers-arangodb/issues/9)
+- Inclues collection [\#7](https://github.com/AnatidaeProject/feathers-arangodb/issues/7)
+- An in-range update of @feathersjs/socketio is breaking the build 🚨 [\#6](https://github.com/AnatidaeProject/feathers-arangodb/issues/6)
+
 ## [v3.0.0](https://github.com/AnatidaeProject/feathers-arangodb/tree/v3.0.0) (2018-11-09)
 [Full Changelog](https://github.com/AnatidaeProject/feathers-arangodb/compare/v1.1.0...v3.0.0)
 
