@@ -36,8 +36,8 @@ export declare type ArangoDbConfig =
     }>;
 
 export enum AUTH_TYPES {
-  BASIC_AUTH,
-  BEARER_AUTH
+  BASIC_AUTH = 'BASIC_AUTH',
+  BEARER_AUTH = 'BEARER_AUTH'
 }
 
 export declare interface Paginate {

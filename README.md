@@ -1,133 +1,95 @@
-# feathers-arangodb
-[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-mongodb.svg)](https://greenkeeper.io/)
 
-[![Build Status](https://travis-ci.org/Brian-McBride/feathers-arangodb.png?branch=master)](https://travis-ci.org/Brian-McBride/feathers-arangodb)
-[![Dependency Status](https://img.shields.io/david/Brian-McBride/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/Brian-McBride/feathers-arangodb)
-[![Download Status](https://img.shields.io/npm/dm/feathers-arangodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-arangodb)
+# feathers-arangodb  
+[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-mongodb.svg)](https://greenkeeper.io/)  
+  
+[![Build Status](https://travis-ci.org/Brian-McBride/feathers-arangodb.png?branch=master)](https://travis-ci.org/Brian-McBride/feathers-arangodb)  
+[![Dependency Status](https://img.shields.io/david/Brian-McBride/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/Brian-McBride/feathers-arangodb)  
+[![Download Status](https://img.shields.io/npm/dm/feathers-arangodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-arangodb)  
+  
+A [Feathers](https://feathersjs.com) database adapter for [ArangoDB](https://www.arango.org/) using [official NodeJS driver for ArangoDB](https://github.com/arangodb/arangojs).  
+  
+```bash  
+$ npm install --save arangojs feathers-arangodb  
+```  
+  
+> __Important:__ `feathers-arangodb` implements the [Feathers Common database adapter API](https://docs.feathersjs.com/api/databases/common.html) and [querying syntax](https://docs.feathersjs.com/api/databases/querying.html).  
+  
+> This adapter also requires a [running ArangoDB](https://docs.arangodb.com/3.3/Manual/GettingStarted/) database server.  
+  
+---  
+  
+### Simple Server Example  
+```$javascript  
+import express from '@feathersjs/express';  
+import feathers, {HookContext} from '@feathersjs/feathers';  
+import cors from 'cors';  
+import helmet from 'helmet';  
+import compress from 'compression';  
+import ArangoDbService, { IArangoDbService, IOptions, AUTH_TYPES } from 'feathers-arangodb'  
+import { aql } from "arangojs";  
+  
+// Set up your feathers app.  
+const app = express(feathers());  
+app.use(helmet());  
+app.use(cors());  
+app.use(compress());  
+app.use(express.json());  
+app.use(express.urlencoded({ extended: true }));  
+app.configure(express.rest());  
+  
+// Create your database settings  
+const todoDatabase:IOptions = {  
+  collection: 'TODOS',  
+  database: 'YOUR_DATABASE_NAME',  
+  authType: AUTH_TYPES.BASIC_AUTH,  
+  username: 'root',  
+  password: 'root',  
+};  
+// Fast and simple CRUD  
+app.use('todos', ArangoDbService(todoDatabase));  
+  
+// Add in some hooks!  
+const todoService = <IArangoDbService<any>>app.service('todos');  
+todoService.hooks({  
+  after: {  
+    create: [  
+      async (context:HookContext) => {  
+        // Maybe we want run another AQL query directly on the database.  
+        const { database, collection } = await todoService.connect();  
+        // Do a query  
+        const cursor = await database.query(aql`RETURN LENGTH(${collection})`)  
+        // Parse the cursor  
+        const count = await cursor.next();  
+        // Assign some data to the stuff  
+        context.result = {  
+          count,  
+          data: context.result  
+        };  
+        return context;  
+      }  
+    ]  
+  }  
+});  
+  
+// Start the app listening  
+app.listen(8080);  
+console.log('Listening on port 8080');  
+```  
+  
+#### Database Options  
 
-A [Feathers](https://feathersjs.com) database adapter for [ArangoDB](https://www.arango.org/) using [official NodeJS driver for ArangoDB](https://github.com/arangodb/arangojs).
-
-```bash
-$ npm install --save arangojs feathers-arangodb
-```
-
-> __Important:__ `feathers-arangodb` implements the [Feathers Common database adapter API](https://docs.feathersjs.com/api/databases/common.html) and [querying syntax](https://docs.feathersjs.com/api/databases/querying.html).
-
-> This adapter also requires a [running ArangoDB](https://docs.arangodb.com/3.3/Manual/GettingStarted/) database server.
-
-
-## Initalization File
-
-Now create a file to use in feathersJS initialization (i.e. arangodb.js).
-
-```javascript
-const Database = require('arangojs').Database;
-
-module.exports = function () {
-  const app = this;
-  const config = app.get('arangodb');
-  const promise = dbConnect(config);
-
-  app.set('arangoClient', promise);
-};
-
-function dbConnect (options = {}) {
-  const host = options.host || process.env.ARANGODB_HOST;
-  const port = options.port || process.env.ARANGODB_PORT;
-  const databaseName = options.database || process.env.ARANGODB_DB;
-
-  const basicAuth = options.basicAuth || {};
-  const username = basicAuth.username || process.env.ARANGODB_USERNAME;
-  const password = basicAuth.password || process.env.ARANGODB_PASSWORD;
-
-  const url = `${host}:${port}`;
-
-  const db = new Database(url);
-  db.useDatabase(databaseName);
-  if (username) db.useBasicAuth(username, password);
-
-  return new Promise((resolve, reject) => {
-    db.get()
-      .then(() => resolve(db))
-      .catch(err => reject(err));
-  });
-}
-```
-
-## Setup in app.js
-Either modify the app.js file generated by the FeathersJS CLI or add this to your own startup sequence:
-You will need to add these lines into app.js in the appropriate spots:
-```javascript
-const arangodb = require('./arangodb'); // Or whatever path/filename you created above
-app.configure(arangodb);
-```
-
-## Create a service
-You can create your service. Note that you do need to init the database which will verify and create the specified collection.
-```javascript
-const createService = require('../../connectors/feathers-arangodb');
-const hooks = require('./someservice.hooks');
-
-module.exports = function (app) {
-  const paginate = app.get('paginate');
-  const arangoClient = app.get('arangoClient');
-
-  const options = {
-    paginate
-  };
-
-  // Initialize our service with any options it requires
-  app.use('/someservice', createService(options));
-
-  // Get our initialized service so that we can register hooks and filters
-  const service = app.service('/someservice');
-
-  arangoClient.then(db => {
-    service.init(db, 'someservice');
-  });
-
-  service.hooks(hooks);
-};
-```
-
-## Custom AQL Queries
-There is a lot that ArangoDB can do beyond the simple CRUD that feathers exposes.
-The method `query` on the service is a straight pass-through to the ArangoJS Query. 
-It returns a cursor object as expected.
-https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/Queries.html#aql
-####To Use:
-An in creating custom hooks in the file `someservice.hooks`.
-Read more about creating hooks in the feathers docs: https://docs.feathersjs.com/api/hooks.html
-```javascript
-module.exports = {
-                   before: {
-                     get: [
-                       async function(context) {
-                       
-                         // Create a query
-                         let queryString = aql`
-                                   FOR user IN people
-                                   FILTER user.name == "Nancy"
-                                   RETURN user
-                                 `;
-                         
-                         // Get the cursor
-                         let cursor = await context.service.query(queryString);
-                         
-                         // Do something with it - in this case, get all the data in an array
-                         let data = await cursor.all();
-                         
-                         // Update the result (the message)
-                         context.result.user = data;
-                         
-                         // Returning will resolve the promise with the `context` object
-                         return context;
-                       }
-                     ]
-                   }
-                 }
-```
-
-Copyright (c) 2018
-
+**id** *(optional)* : String : Translated ID key value in payloads. Actual storage in database is saved in the `_key` key/value within ArangoDB. Defaults to `_key`
+**expandData** *(optional)* : Boolean : Adapter filters out `_rev` and `_id` from ArangoDB. Setting expandData to true will include these in the payload results. Defaults to `false`
+**collection** *(required)* : DocumentCollection | String : Either a string name of a collection, which will be created if it doesn't exist in database, or a reference to an existing arangoDB collection object.
+**database** *(required)* : Database | String : Either a string name of a database, which will be created if it doesn't exist on the ArangoDB server, or a reference to an existing ArangoDB database object.
+**authType** *(optional)* :  String : String value of either `BASIC_AUTH` or `BEARER_AUTH`. Used to define the type of auth to ArangoDB ([see documentation](https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/#databaseusebasicauth)). Defaults to `BASIC_AUTH`
+**username** *(optional)* :  String : Used for auth, plaintext username
+**password** *(optional)* :  String : Used for auth, plaintext password
+**token** *(optional)* :  String : If token is supplied, auth uses token instead of username/password.
+**dbConfig** *(optional)* :  ArangoDbConfig : ArangoDB Config file for a new database. [See Documentation](https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/#new-database)
+**events** *(optional)* :  Array : FeathersJS Events - [See Documentation](https://docs.feathersjs.com/api/events.html)
+**paginate** *(optional)* :  FeathersJS Paginate : FeathersJS Paginate - [See Documentation](https://docs.feathersjs.com/api/databases/common.html#pagination)
+  
+Copyright (c) 2018  
+  
 Licensed under the [MIT license](LICENSE).
