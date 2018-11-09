@@ -2,7 +2,7 @@
 # feathers-arangodb  
 [![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-mongodb.svg)](https://greenkeeper.io/)  
   
-[![Build Status](https://travis-ci.org/Brian-McBride/feathers-arangodb.png?branch=master)](https://travis-ci.org/Brian-McBride/feathers-arangodb)  
+[![Build Status](https://travis-ci.org/AnatidaeProject/feathers-arangodb.png?branch=master)](https://travis-ci.org/Brian-McBride/feathers-arangodb)  
 [![Dependency Status](https://img.shields.io/david/Brian-McBride/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/Brian-McBride/feathers-arangodb)  
 [![Download Status](https://img.shields.io/npm/dm/feathers-arangodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-arangodb)  
   
