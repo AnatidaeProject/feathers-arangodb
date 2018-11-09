@@ -1,10 +1,24 @@
 # Change Log
 
-## [Released](https://github.com/Brian-McBride/feathers-arangodb/tree/HEAD)
+## [v3.0.0](https://github.com/AnatidaeProject/feathers-arangodb/tree/v3.0.0) (2018-11-09)
+[Full Changelog](https://github.com/AnatidaeProject/feathers-arangodb/compare/v1.1.0...v3.0.0)
+
+**Implemented enhancements:**
+
+- Enable $search filter in query [\#1](https://github.com/AnatidaeProject/feathers-arangodb/issues/1)
+
+**Closed issues:**
+
+- An in-range update of arangojs is breaking the build 🚨 [\#5](https://github.com/AnatidaeProject/feathers-arangodb/issues/5)
 
 **Merged pull requests:**
 
-- Update clone-deep to the latest version 🚀 [\#2](https://github.com/Brian-McBride/feathers-arangodb/pull/2) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- 2.x [\#10](https://github.com/AnatidaeProject/feathers-arangodb/pull/10) ([Brian-McBride](https://github.com/Brian-McBride))
+
+## [v1.1.0](https://github.com/AnatidaeProject/feathers-arangodb/tree/v1.1.0) (2018-09-08)
+**Merged pull requests:**
+
+- Update clone-deep to the latest version 🚀 [\#2](https://github.com/AnatidaeProject/feathers-arangodb/pull/2) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 
 
