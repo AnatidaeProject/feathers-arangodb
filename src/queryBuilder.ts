@@ -210,9 +210,8 @@ export class QueryBuilder {
         this.addBindVar(value["$ne"]),
         "!="
       );
-    }
+    } else {
     /* istanbul ignore next */
-    else {
       const leftovers = _omit(value, this.reserved);
       /* istanbul ignore next */
       if (!_isEmpty(leftovers))
