@@ -1,5 +1,5 @@
 import { NotFound } from "@feathersjs/errors";
-import { Database, DocumentCollection } from "arangojs";
+import { Database, DocumentCollection, Graph } from "arangojs";
 import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
 import { AqlQuery } from "arangojs/lib/cjs/aql-query";
 import {
@@ -16,6 +16,7 @@ import omit from "lodash.omit";
 import uuid from "uuid/v4";
 import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
+import { GraphVertexCollection } from "arangojs/lib/cjs/graph";
 
 export declare type ArangoDbConfig =
   | string
@@ -47,13 +48,13 @@ export declare interface Paginate {
 
 export interface IConnectResponse {
   database: AutoDatabse;
-  collection: DocumentCollection;
+  collection: DocumentCollection | GraphVertexCollection;
 }
 
 export interface IOptions {
   id?: string;
   expandData?: boolean;
-  collection: DocumentCollection | string;
+  collection: DocumentCollection | GraphVertexCollection |string;
   database: Database | string;
   authType?: AUTH_TYPES;
   username?: string;
@@ -69,7 +70,7 @@ export interface IArangoDbService<T> extends Service<T> {
   paginate: Paginate;
   readonly id: string;
   readonly database: Database;
-  readonly collection: DocumentCollection;
+  readonly collection: DocumentCollection | GraphVertexCollection;
   connect(): Promise<IConnectResponse>;
   setup(): Promise<void>;
 }
@@ -79,7 +80,7 @@ export class DbService {
   public readonly options: IOptions;
   private readonly _id: string;
   private _database: AutoDatabse | undefined;
-  private _collection: DocumentCollection | undefined;
+  private _collection: DocumentCollection | GraphVertexCollection | undefined;
   private _paginate: Paginate;
   constructor(options: IOptions) {
     // Runtime checks
@@ -109,7 +110,7 @@ export class DbService {
     // Set the collection if it is connected
     /* istanbul ignore next */
     if (!isString(options.collection) && !!options.collection) {
-      this._collection = options.collection;
+      this._collection = <DocumentCollection | GraphVertexCollection>options.collection;
     } else if (!options.collection) {
       throw new Error("Collection reference or name (string) is required");
     }
@@ -155,7 +156,7 @@ export class DbService {
     return this._database;
   }
 
-  get collection(): DocumentCollection | undefined {
+  get collection(): DocumentCollection | GraphVertexCollection | undefined {
     return this._collection;
   }
 
