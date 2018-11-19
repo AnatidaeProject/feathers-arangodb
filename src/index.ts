@@ -1,7 +1,9 @@
 import { NotFound } from "@feathersjs/errors";
-import { Database, DocumentCollection, Graph } from "arangojs";
+import { Database, DocumentCollection } from "arangojs";
 import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
 import { AqlQuery } from "arangojs/lib/cjs/aql-query";
+import { ArangoError } from "arangojs/lib/cjs/error";
+import { Graph } from "arangojs/lib/cjs/graph";
 import {
   Application,
   Id,
@@ -17,6 +19,7 @@ import uuid from "uuid/v4";
 import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
 import { GraphVertexCollection } from "arangojs/lib/cjs/graph";
+import { ArrayCursor } from "arangojs/lib/cjs/cursor";
 
 export declare type ArangoDbConfig =
   | string
@@ -49,6 +52,12 @@ export declare interface Paginate {
 export interface IConnectResponse {
   database: AutoDatabse;
   collection: DocumentCollection | GraphVertexCollection;
+  graph?: Graph;
+}
+
+export interface IGraphOptions {
+  properties?: any;
+  opts?: { waitForSync?: boolean; }
 }
 
 export interface IOptions {
@@ -56,6 +65,7 @@ export interface IOptions {
   expandData?: boolean;
   collection: DocumentCollection | GraphVertexCollection |string;
   database: Database | string;
+  graph?: Graph | IGraphOptions;
   authType?: AUTH_TYPES;
   username?: string;
   password?: string;
@@ -81,6 +91,7 @@ export class DbService {
   private readonly _id: string;
   private _database: AutoDatabse | undefined;
   private _collection: DocumentCollection | GraphVertexCollection | undefined;
+  private _graph: Graph | undefined;
   private _paginate: Paginate;
   constructor(options: IOptions) {
     // Runtime checks
@@ -107,6 +118,11 @@ export class DbService {
     } else if (!isString(options.database)) {
       throw new Error("Database reference or name (string) is required");
     }
+
+    if (options.graph instanceof Graph) {
+      this._graph = options.graph;
+    }
+
     // Set the collection if it is connected
     /* istanbul ignore next */
     if (!isString(options.collection) && !!options.collection) {
@@ -117,10 +133,10 @@ export class DbService {
   }
 
   public async connect(): Promise<IConnectResponse> {
+    const { authType, username, password, token, graph } = this.options;
     /* istanbul ignore next */
     if (this._database === undefined) {
       this._database = new AutoDatabse();
-      const { authType, username, password, token } = this.options;
       switch (authType) {
         case AUTH_TYPES.BASIC_AUTH:
           this._database.useBasicAuth(username, password);
@@ -135,6 +151,11 @@ export class DbService {
           break;
       }
       await this._database.autoUseDatabase(this.options.database as string);
+    }
+
+    if (graph && !this._graph) {
+      const { properties, opts } = <IGraphOptions>graph;
+      this._graph = await this._database.autoGraph(properties, opts)
     }
 
     if (this._collection === undefined) {
@@ -186,11 +207,11 @@ export class DbService {
   }
 
   public fixKeySend<T>(data: T | T[]): Partial<T> | Array<Partial<T>> {
-    data = Array.isArray(data) ? data : [data];
-    if (data.length < 1) {
-      return data;
+    const aData:any[] = Array.isArray(data) ? data : [data];
+    if (aData.length < 1) {
+      return aData;
     }
-    return data.map((item: any) => {
+    return aData.map((item: any) => {
       const id = item[this._id] || uuid();
       return { _key: id, ...omit(item, "_id", "_rev", "_key") };
     }) as Array<Partial<T>>;
@@ -213,7 +234,7 @@ export class DbService {
     removeArray = true,
     paging = false
   ) {
-    const cursor = await database
+    const cursor:ArrayCursor = <ArrayCursor>await database
       .query(query, { count: paging, options: { fullCount: paging } })
       .catch(error => {
         if (
