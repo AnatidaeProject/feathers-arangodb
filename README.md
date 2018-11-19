@@ -86,6 +86,8 @@ console.log('Listening on port 8080');
 
 **database** *(required)* : Database | String : Either a string name of a database, which will be created if it doesn't exist on the ArangoDB server, or a reference to an existing ArangoDB database object.
 
+**graph** *(optional)* : Graph | { properties, opts } : Graph options to create a new graph. `name` is required in the properties. [See Documentation](https://docs.arangodb.com/devel/HTTP/Gharial/Management.html#create-a-graph)
+
 **authType** *(optional)* :  String : String value of either `BASIC_AUTH` or `BEARER_AUTH`. Used to define the type of auth to ArangoDB ([see documentation](https://docs.arangodb.com/devel/Drivers/JS/Reference/Database/#databaseusebasicauth)). Defaults to `BASIC_AUTH`
 
 **username** *(optional)* :  String : Used for auth, plaintext username
