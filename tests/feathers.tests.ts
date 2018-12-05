@@ -3,12 +3,12 @@ import { Application, Service } from 'feathersjs__feathers';
 import { NotFound } from '@feathersjs/errors';
 import ArangoDbService, { IArangoDbService, AUTH_TYPES } from '../src';
 import { AutoDatabse } from '../src/auto-database';
-import { escapeRegExp } from 'tslint/lib/utils';
 
 const serviceName = 'people';
 const idProp = 'id';
 
 describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id property `, () => {
+  const promiseDatabase = 'TEST_PROMISE_DB';
   const testDatabase = 'TEST_DB';
   const testCollection = 'TEST_COL';
   const testUser = 'root';
@@ -38,6 +38,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     const database = new AutoDatabse();
     database.useBasicAuth(testUser, testPass);
     await database.dropDatabase(testDatabase);
+    await database.dropDatabase(promiseDatabase);
     done();
   });
 
@@ -73,6 +74,39 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
   it('sets `id` property on the service', () => {
     expect(service.id).toEqual(idProp);
+  });
+
+  it('Accepts a promise as a database reference', async () => {
+    const autoDb = new AutoDatabse();
+    autoDb.useBasicAuth(testUser, testPass);
+    const promiseDb = autoDb.autoUseDatabase(promiseDatabase);
+    const dbService = ArangoDbService({
+      id: idProp,
+      collection: testCollection,
+      database: promiseDb
+    });
+    await dbService.connect();
+    const info = await dbService.database.get();
+    expect(dbService.database).toBeDefined();
+    expect(dbService.collection).toBeDefined();
+    expect(info.name).toEqual(promiseDatabase);
+  });
+
+  it('Accepts a promise as a collection reference', async () => {
+    const autoDb = new AutoDatabse();
+    autoDb.useBasicAuth(testUser, testPass);
+    const db = await autoDb.autoUseDatabase(promiseDatabase);
+    const collectionPromise = autoDb.autoCollection('PROMISE_COLLECTION');
+    const dbService = ArangoDbService({
+      id: idProp,
+      collection: collectionPromise,
+      database: db
+    });
+    await dbService.connect();
+    const info = await dbService.collection.get();
+    expect(dbService.database).toBeDefined();
+    expect(dbService.collection).toBeDefined();
+    expect(info.name).toEqual('PROMISE_COLLECTION');
   });
 
   it('Accepts string as database & collection', async () => {

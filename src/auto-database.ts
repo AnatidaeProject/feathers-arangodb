@@ -21,6 +21,7 @@ export class AutoDatabse extends Database {
     if (databaseList.indexOf(databaseName) === -1) {
       /* istanbul ignore next  ArangoDB Driver tests covered in driver*/
       await this.createDatabase(databaseName).catch((err: ArangoError) => {
+        /* istanbul ignore next  Ignoring this type of error*/
         if (err.isArangoError && err.errorNum == 1207) {
           // If a database with the same name is created at the same time as another, this can cause a race condition.
           // Ignore race conditions and continue.
@@ -45,6 +46,7 @@ export class AutoDatabse extends Database {
     const exists = await graph.exists();
     if (!exists) {
       await graph.create(properties).catch((err: ArangoError) => {
+        /* istanbul ignore next  Ignoring this type of error*/
         if (err.isArangoError && err.errorNum == 1207) {
           // If a database with the same name is created at the same time as another, this can cause a race condition.
           // Ignore race conditions and continue.
@@ -83,6 +85,7 @@ export class AutoDatabse extends Database {
         await this.collection(collectionName)
           .create({ waitForSync: true })
           .catch(err => {
+            /* istanbul ignore next  Ignoring this type of error*/
             if (err.isArangoError && err.errorNum == 1207) {
               // If a collection with the same name is created at the same time as another, this can cause a race condition.
               // Ignore race conditions and continue.

@@ -50,21 +50,25 @@ export declare interface Paginate {
 }
 
 export interface IConnectResponse {
-  database: AutoDatabse;
+  database: AutoDatabse | Database;
   collection: DocumentCollection | GraphVertexCollection;
   graph?: Graph;
 }
 
 export interface IGraphOptions {
   properties?: any;
-  opts?: { waitForSync?: boolean; }
+  opts?: { waitForSync?: boolean };
 }
 
 export interface IOptions {
   id?: string;
   expandData?: boolean;
-  collection: DocumentCollection | GraphVertexCollection |string;
-  database: Database | string;
+  collection:
+    | DocumentCollection
+    | GraphVertexCollection
+    | string
+    | Promise<DocumentCollection | GraphVertexCollection>;
+  database: AutoDatabse | Database | string | Promise<AutoDatabse | Database>;
   graph?: Graph | IGraphOptions;
   authType?: AUTH_TYPES;
   username?: string;
@@ -89,9 +93,14 @@ export class DbService {
   public events: any[] = [];
   public readonly options: IOptions;
   private readonly _id: string;
-  private _database: AutoDatabse | undefined;
+  private _database: AutoDatabse | Database | undefined;
+  private _databasePromise: Promise<AutoDatabse | Database> | undefined;
   private _collection: DocumentCollection | GraphVertexCollection | undefined;
+  private _collectionPromise:
+    | Promise<DocumentCollection | GraphVertexCollection>
+    | undefined;
   private _graph: Graph | undefined;
+  private _graphPromise: Promise<Graph> | undefined;
   private _paginate: Paginate;
   constructor(options: IOptions) {
     // Runtime checks
@@ -113,20 +122,29 @@ export class DbService {
     this.options = options;
     // Set the database if passed an existing DB
     /* istanbul ignore next */
-    if (options.database instanceof AutoDatabse) {
+    if (options.database instanceof Promise) {
+      this._databasePromise = options.database;
+    } else if (options.database instanceof AutoDatabse) {
       this._database = options.database;
     } else if (!isString(options.database)) {
       throw new Error("Database reference or name (string) is required");
     }
 
-    if (options.graph instanceof Graph) {
+    if (options.graph instanceof Promise) {
+      this._graphPromise = options.graph;
+    }
+    else if (options.graph instanceof Graph) {
       this._graph = options.graph;
     }
 
     // Set the collection if it is connected
     /* istanbul ignore next */
-    if (!isString(options.collection) && !!options.collection) {
-      this._collection = <DocumentCollection | GraphVertexCollection>options.collection;
+    if (options.collection instanceof Promise) {
+      this._collectionPromise = options.collection;
+    } else if (!isString(options.collection) && !!options.collection) {
+      this._collection = <DocumentCollection | GraphVertexCollection>(
+        options.collection
+      );
     } else if (!options.collection) {
       throw new Error("Collection reference or name (string) is required");
     }
@@ -134,33 +152,54 @@ export class DbService {
 
   public async connect(): Promise<IConnectResponse> {
     const { authType, username, password, token, graph } = this.options;
+    if (this._database === undefined && this._databasePromise) {
+      this._database = await this._databasePromise;
+    }
     /* istanbul ignore next */
     if (this._database === undefined) {
-      this._database = new AutoDatabse();
+      let db = new AutoDatabse();
       switch (authType) {
         case AUTH_TYPES.BASIC_AUTH:
-          this._database.useBasicAuth(username, password);
+          db.useBasicAuth(username, password);
           break;
         case AUTH_TYPES.BEARER_AUTH:
           /* istanbul ignore next  Testing will assuming working SDK  */
           if (token) {
-            await this._database.useBearerAuth(token || "");
+            await db.useBearerAuth(token || "");
           } else {
-            await this._database.login(username, password);
+            await db.login(username, password);
           }
           break;
       }
-      await this._database.autoUseDatabase(this.options.database as string);
+      await db.autoUseDatabase(this.options.database as string);
+      this._database = db;
+    }
+
+    if (!this._graph && this._graphPromise) {
+      this._graph = await this._graphPromise;
     }
 
     if (graph && !this._graph) {
       const { properties, opts } = <IGraphOptions>graph;
-      this._graph = await this._database.autoGraph(properties, opts)
+      if (this._database instanceof AutoDatabse) {
+        this._graph = await this._database.autoGraph(properties, opts);
+      } else {
+        throw `Auto creation of graphs requires instance of AutoDatabase`;
+      }
+    }
+
+    /* istanbul ignore next  This doens't need to be tested  */
+    if (this._collectionPromise) {
+      this._collection = await this._collectionPromise;
     }
 
     if (this._collection === undefined) {
-      this._collection = await this._database.autoCollection(this.options
-        .collection as string);
+      if (this._database instanceof AutoDatabse) {
+        this._collection = await this._database.autoCollection(this.options
+          .collection as string);
+      } else {
+        throw `Auto creation of collections requires instance of AutoDatabase`;
+      }
     }
 
     return {
@@ -173,7 +212,7 @@ export class DbService {
     return this._id;
   }
 
-  get database(): AutoDatabse | undefined {
+  get database(): AutoDatabse | Database | undefined {
     return this._database;
   }
 
@@ -207,7 +246,7 @@ export class DbService {
   }
 
   public fixKeySend<T>(data: T | T[]): Partial<T> | Array<Partial<T>> {
-    const aData:any[] = Array.isArray(data) ? data : [data];
+    const aData: any[] = Array.isArray(data) ? data : [data];
     if (aData.length < 1) {
       return aData;
     }
@@ -228,26 +267,28 @@ export class DbService {
   }
 
   public async _returnMap(
-    database: AutoDatabse,
+    database: AutoDatabse | Database,
     query: AqlQuery,
     errorMessage?: string,
     removeArray = true,
     paging = false
   ) {
-    const cursor:ArrayCursor = <ArrayCursor>await database
-      .query(query, { count: paging, options: { fullCount: paging } })
-      .catch(error => {
-        if (
-          error &&
-          error.isArangoError &&
-          error.errorNum === 1202 &&
-          errorMessage
-        ) {
-          throw new NotFound(errorMessage);
-        } else {
-          throw error;
-        }
-      });
+    const cursor: ArrayCursor = <ArrayCursor>(
+      await database
+        .query(query, { count: paging, options: { fullCount: paging } })
+        .catch(error => {
+          if (
+            error &&
+            error.isArangoError &&
+            error.errorNum === 1202 &&
+            errorMessage
+          ) {
+            throw new NotFound(errorMessage);
+          } else {
+            throw error;
+          }
+        })
+    );
     const result: any[] = await cursor.map(item => this.fixKeyReturn(item));
     if (result.length === 0 && errorMessage) {
       throw new NotFound(errorMessage);
