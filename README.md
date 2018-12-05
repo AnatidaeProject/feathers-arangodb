@@ -2,8 +2,8 @@
 # feathers-arangodb  
 [![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-mongodb.svg)](https://greenkeeper.io/)  
   
-[![Build Status](https://travis-ci.org/AnatidaeProject/feathers-arangodb.png?branch=master)](https://travis-ci.org/Brian-McBride/feathers-arangodb)  
-[![Dependency Status](https://img.shields.io/david/Brian-McBride/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/Brian-McBride/feathers-arangodb)  
+[![Build Status](https://travis-ci.org/AnatidaeProject/feathers-arangodb.png?branch=master)](https://travis-ci.org/AnatidaeProject/feathers-arangodb)  
+[![Dependency Status](https://img.shields.io/david/AnatidaeProject/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/AnatidaeProject/feathers-arangodb)  
 [![Download Status](https://img.shields.io/npm/dm/feathers-arangodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-arangodb)  
   
 A [Feathers](https://feathersjs.com) database adapter for [ArangoDB](https://www.arango.org/) using [official NodeJS driver for ArangoDB](https://github.com/arangodb/arangojs).  
