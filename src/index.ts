@@ -151,13 +151,13 @@ export class DbService {
   }
 
   public async connect(): Promise<IConnectResponse> {
-    const { authType, username, password, token, graph } = this.options;
+    const { authType, username, password, token, graph, dbConfig } = this.options;
     if (this._database === undefined && this._databasePromise) {
       this._database = await this._databasePromise;
     }
     /* istanbul ignore next */
     if (this._database === undefined) {
-      let db = new AutoDatabse();
+      let db = new AutoDatabse(dbConfig);
       switch (authType) {
         case AUTH_TYPES.BASIC_AUTH:
           db.useBasicAuth(username, password);

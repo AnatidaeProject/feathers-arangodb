@@ -1,6 +1,6 @@
 {
   "name": "feathers-arangodb",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "ArangoDB Service/Adapter for FeathersJS",
   "homepage": "https://github.com/AnatidaeProject/feathers-arangodb",
   "main": "lib/",
@@ -38,7 +38,7 @@
     "node": ">= 8"
   },
   "dependencies": {
-    "@feathersjs/commons": "^3.0.1",
+    "@feathersjs/commons": "^4.0.0",
     "@feathersjs/errors": "^3.3.4",
     "arangojs": "^6.9.0",
     "lodash.get": "^4.4.2",

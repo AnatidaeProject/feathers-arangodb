@@ -60,6 +60,28 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     expect(service.collection).toBeDefined();
   });
 
+  it('Can connect to a specified database url', async () => {
+    app.use(
+      `/tasks`,
+      ArangoDbService({
+        id: idProp,
+        collection: 'tasks',
+        database: testDatabase,
+        authType: AUTH_TYPES.BASIC_AUTH,
+        username: testUser,
+        password: testPass,
+        events: ['testing'],
+        dbConfig: {
+          url: 'http://localhost:8529',
+        }
+      })
+    );
+    const otherUrl = <IArangoDbService<any>>app.service('tasks');
+    await otherUrl.connect();
+    expect(otherUrl.database).toBeDefined();
+    expect(otherUrl.collection).toBeDefined();
+  });
+
   it('Service setup check', async () => {
     await service.setup();
     expect(service.database).toBeDefined();

@@ -28,6 +28,7 @@ describe('AutoDatabase Class', () => {
     done();
   });
 
+
   it('Creates a database when needed', async () => {
     await db.autoUseDatabase(testDatabase);
     const info = await db.get();
