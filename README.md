@@ -1,7 +1,5 @@
 
 # feathers-arangodb  
-[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-mongodb.svg)](https://greenkeeper.io/)  
-  
 [![Build Status](https://travis-ci.org/AnatidaeProject/feathers-arangodb.png?branch=master)](https://travis-ci.org/AnatidaeProject/feathers-arangodb)  
 [![Dependency Status](https://img.shields.io/david/AnatidaeProject/feathers-arangodb.svg?style=flat-square)](https://david-dm.org/AnatidaeProject/feathers-arangodb)  
 [![Download Status](https://img.shields.io/npm/dm/feathers-arangodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-arangodb)  
@@ -19,7 +17,7 @@ $ npm install --save arangojs feathers-arangodb
 ---  
   
 ### Simple Server Example  
-```$javascript  
+```javascript  
 import express from '@feathersjs/express';  
 import feathers, {HookContext} from '@feathersjs/feathers';  
 import cors from 'cors';  
