@@ -19,7 +19,7 @@ $ npm install --save arangojs feathers-arangodb
 ---  
   
 ### Simple Server Example  
-```$javascript  
+```javascript  
 import express from '@feathersjs/express';  
 import feathers, {HookContext} from '@feathersjs/feathers';  
 import cors from 'cors';  
