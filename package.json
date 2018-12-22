@@ -40,7 +40,7 @@
   "dependencies": {
     "@feathersjs/commons": "^4.0.0",
     "@feathersjs/errors": "^3.3.4",
-    "arangojs": "^6.9.0",
+    "arangojs": "^6.10.0",
     "lodash.get": "^4.4.2",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
