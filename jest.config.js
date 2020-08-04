@@ -1,10 +1,10 @@
 module.exports = {
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.tsx?$": "ts-jest"
   },
   testRegex: "(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
     "!**/node_modules/**",
@@ -12,7 +12,7 @@ module.exports = {
     "!./lib/**",
     "!./coverage/**"
   ],
-  "reporters": [ "default", "jest-junit" ],
-  "testEnvironment": "node",
-  "testURL": "http://localhost"
+  reporters: ["default", "jest-junit"],
+  testEnvironment: "node",
+  testURL: "http://localhost"
 };

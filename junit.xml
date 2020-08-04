@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="67" failures="67" time="6.156">
+  <testsuite name="AutoDatabase Class" errors="0" failures="7" skipped="0" timestamp="2020-05-28T12:12:28" time="5.43" tests="7">
+    <testcase classname="AutoDatabase Class Creates a database when needed" name="AutoDatabase Class Creates a database when needed" time="0.006">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Uses found database when needed" name="AutoDatabase Class Uses found database when needed" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Creates a collection when needed" name="AutoDatabase Class Creates a collection when needed" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Uses found collection when needed" name="AutoDatabase Class Uses found collection when needed" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Creates a graph when needed" name="AutoDatabase Class Creates a graph when needed" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Uses found graph when needed" name="AutoDatabase Class Uses found graph when needed" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="AutoDatabase Class Uses found graph when needed" name="AutoDatabase Class Uses found graph when needed" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Feathers common tests, people service with \id\ id property " errors="0" failures="60" skipped="0" timestamp="2020-05-28T12:12:28" time="5.862" tests="60">
+    <testcase classname="Feathers common tests, people service with \id\ id property  Service connects" name="Feathers common tests, people service with \id\ id property  Service connects" time="0.011">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Can connect to a specified database url" name="Feathers common tests, people service with \id\ id property  Can connect to a specified database url" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Service setup check" name="Feathers common tests, people service with \id\ id property  Service setup check" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  works" name="Feathers common tests, people service with \id\ id property  works" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  sets `id` property on the service" name="Feathers common tests, people service with \id\ id property  sets `id` property on the service" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Accepts a promise as a database reference" name="Feathers common tests, people service with \id\ id property  Accepts a promise as a database reference" time="0.005">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Accepts a promise as a collection reference" name="Feathers common tests, people service with \id\ id property  Accepts a promise as a collection reference" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Accepts string as database &amp; collection" name="Feathers common tests, people service with \id\ id property  Accepts string as database &amp; collection" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Accepts a database &amp; collection as arguments" name="Feathers common tests, people service with \id\ id property  Accepts a database &amp; collection as arguments" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  sets `events` property from options" name="Feathers common tests, people service with \id\ id property  sets `events` property from options" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  extend extends and uses extended method" name="Feathers common tests, people service with \id\ id property  extend extends and uses extended method" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  get returns an instance that exists" name="Feathers common tests, people service with \id\ id property  get returns an instance that exists" time="0.005">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.get&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:184:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  get supports $select" name="Feathers common tests, people service with \id\ id property  get supports $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.get&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:191:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  get returns NotFound error for non-existing id" name="Feathers common tests, people service with \id\ id property  get returns NotFound error for non-existing id" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: expect(received).toBeTruthy()
+
+Received: false
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:207:45
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  remove deletes an existing instance and returns the deleted instance" name="Feathers common tests, people service with \id\ id property  remove deletes an existing instance and returns the deleted instance" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:216:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  remove deletes an existing instance supports $select" name="Feathers common tests, people service with \id\ id property  remove deletes an existing instance supports $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:221:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  remove deletes multiple instances" name="Feathers common tests, people service with \id\ id property  remove deletes multiple instances" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find returns all items" name="Feathers common tests, people service with \id\ id property  find returns all items" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find filters results by a single parameter" name="Feathers common tests, people service with \id\ id property  find filters results by a single parameter" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find filters results by multiple parameters" name="Feathers common tests, people service with \id\ id property  find filters results by multiple parameters" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $sort" name="Feathers common tests, people service with \id\ id property  find special filters can $sort" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $sort with strings" name="Feathers common tests, people service with \id\ id property  find special filters can $sort with strings" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $limit" name="Feathers common tests, people service with \id\ id property  find special filters can $limit" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $limit 0" name="Feathers common tests, people service with \id\ id property  find special filters can $limit 0" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $skip" name="Feathers common tests, people service with \id\ id property  find special filters can $skip" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $select" name="Feathers common tests, people service with \id\ id property  find special filters can $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $select nested property" name="Feathers common tests, people service with \id\ id property  find special filters can $select nested property" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $or" name="Feathers common tests, people service with \id\ id property  find special filters can $or" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $not" name="Feathers common tests, people service with \id\ id property  find special filters can $not" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $in" name="Feathers common tests, people service with \id\ id property  find special filters can $in" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $nin" name="Feathers common tests, people service with \id\ id property  find special filters can $nin" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $lt" name="Feathers common tests, people service with \id\ id property  find special filters can $lt" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $lte" name="Feathers common tests, people service with \id\ id property  find special filters can $lte" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $gt" name="Feathers common tests, people service with \id\ id property  find special filters can $gt" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $gte" name="Feathers common tests, people service with \id\ id property  find special filters can $gte" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $ne" name="Feathers common tests, people service with \id\ id property  find special filters can $ne" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can $gt and $lt and $sort" name="Feathers common tests, people service with \id\ id property  find special filters can $gt and $lt and $sort" time="0.003">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find special filters can handle nested $or queries and $sort" name="Feathers common tests, people service with \id\ id property  find special filters can handle nested $or queries and $sort" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find paginate returns paginated object, paginates by default and shows total" name="Feathers common tests, people service with \id\ id property  find paginate returns paginated object, paginates by default and shows total" time="0.002">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find paginate paginates max and skips" name="Feathers common tests, people service with \id\ id property  find paginate paginates max and skips" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find paginate $limit 0 with pagination" name="Feathers common tests, people service with \id\ id property  find paginate $limit 0 with pagination" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  find paginate allows to override paginate in params" name="Feathers common tests, people service with \id\ id property  find paginate allows to override paginate in params" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:257:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  update replaces an existing instance, does not modify original data" name="Feathers common tests, people service with \id\ id property  update replaces an existing instance, does not modify original data" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.update&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:527:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  update replaces an existing instance, supports $select" name="Feathers common tests, people service with \id\ id property  update replaces an existing instance, supports $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.update&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:536:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  update returns NotFound error for non-existing id" name="Feathers common tests, people service with \id\ id property  update returns NotFound error for non-existing id" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: expect(received).toBeTruthy()
+
+Received: false
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:549:43
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:548:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch updates an existing instance, does not modify original data" name="Feathers common tests, people service with \id\ id property  patch updates an existing instance, does not modify original data" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.patch&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:560:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch updates an existing instance, supports $select" name="Feathers common tests, people service with \id\ id property  patch updates an existing instance, supports $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;people.patch&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:569:22)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch patches multiple instances" name="Feathers common tests, people service with \id\ id property  patch patches multiple instances" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch patches multiple instances and returns the actually changed items" name="Feathers common tests, people service with \id\ id property  patch patches multiple instances and returns the actually changed items" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch patches multiple, returns correct items" name="Feathers common tests, people service with \id\ id property  patch patches multiple, returns correct items" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  patch returns NotFound error for non-existing id" name="Feathers common tests, people service with \id\ id property  patch returns NotFound error for non-existing id" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: expect(received).toBeTruthy()
+
+Received: false
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:622:43
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:621:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  create creates a single new instance and returns the created instance" name="Feathers common tests, people service with \id\ id property  create creates a single new instance and returns the created instance" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  create creates a single new instance, supports $select" name="Feathers common tests, people service with \id\ id property  create creates a single new instance, supports $select" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  create creates multiple new instances" name="Feathers common tests, people service with \id\ id property  create creates multiple new instances" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally find" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally find" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally get" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally get" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;undefined.get&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:707:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally create" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally create" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally update" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally update" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;undefined.update&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:719:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally patch" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally patch" time="0.001">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;undefined.patch&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:723:7)</failure>
+    </testcase>
+    <testcase classname="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally remove" name="Feathers common tests, people service with \id\ id property  Services don&apos;t call public methods internally remove" time="0">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:8529
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)</failure>
+      <failure>Error: An id must be provided to the &apos;undefined.remove&apos; method
+    at Object.validate (/home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/lib/hooks/base.js:23:11)
+    at /home/bdbrodie/dev/kodexa/feathers-arangodb/node_modules/@feathersjs/feathers/node_modules/@feathersjs/commons/src/hooks.ts:132:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Object.&lt;anonymous&gt; (/home/bdbrodie/dev/kodexa/feathers-arangodb/tests/feathers.tests.ts:727:7)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

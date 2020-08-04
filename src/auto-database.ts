@@ -84,7 +84,7 @@ export class AutoDatabse extends Database {
         /* istanbul ignore next  */
         await this.collection(collectionName)
           .create({ waitForSync: true })
-          .catch(err => {
+          .catch((err) => {
             /* istanbul ignore next  Ignoring this type of error*/
             if (err.isArangoError && err.errorNum == 1207) {
               // If a collection with the same name is created at the same time as another, this can cause a race condition.
