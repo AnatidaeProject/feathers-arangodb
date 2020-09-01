@@ -41,7 +41,7 @@
   "dependencies": {
     "@feathersjs/commons": "^4.5.3",
     "@feathersjs/errors": "^4.5.3",
-    "arangojs": "^6.14.1",
+    "arangojs": "^7.0.1",
     "lodash": "^4.17.15",
     "uberproto": "^2.0.6",
     "uuidv4": "^6.0.9"
