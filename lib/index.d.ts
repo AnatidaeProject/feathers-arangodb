@@ -62,7 +62,7 @@ export interface IArangoDbService<T> extends Service<T> {
     connect(): Promise<IConnectResponse>;
     setup(): Promise<void>;
 }
-export declare class DbService {
+export declare class DbService<T> {
     events: any[];
     readonly options: IOptions;
     private readonly _id;
@@ -83,17 +83,35 @@ export declare class DbService {
     _injectPagination(params: Params): Params;
     fixKeySend<T>(data: T | T[]): Partial<T> | Array<Partial<T>>;
     fixKeyReturn(item: any): any;
-    _returnMap<T>(database: AutoDatabse | Database, query: AqlQuery, errorMessage?: string, removeArray?: boolean, paging?: boolean): Promise<T | T[] | {
+    _returnMap(database: AutoDatabse | Database, query: AqlQuery, errorMessage?: string, removeArray?: boolean, paging?: boolean): Promise<T | T[] | {
         total: any;
         data: T[];
     }>;
     find(params: Params): Promise<any[] | Paginated<any>>;
-    get(id: Id, params: Params): Promise<unknown>;
-    create(data: Partial<any> | Array<Partial<any>>, params: Params): Promise<unknown>;
-    _replaceOrPatch(fOpt: string | undefined, id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
-    update(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
-    patch(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
-    remove(id: NullableId | NullableId[], params: Params): Promise<unknown>;
+    get(id: Id, params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
+    create(data: Partial<any> | Array<Partial<any>>, params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
+    _replaceOrPatch(fOpt: string | undefined, id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
+    update(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
+    patch(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
+    remove(id: NullableId | NullableId[], params: Params): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
     setup(app: Application, path: string): Promise<void>;
 }
-export default function ArangoDbService(options: IOptions): DbService | any;
+export default function ArangoDbService<T>(options: IOptions): DbService<T> | any;
