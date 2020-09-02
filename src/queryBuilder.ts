@@ -175,8 +175,10 @@ export class QueryBuilder {
     if (this.filter == null) {
       this.filter = aql``;
     } else {
-      this.filter = aql.join([this.filter, aql.literal(`${operator}`)], " ");
-      operator = "AND";
+      if (this.filter.query != "") {
+        this.filter = aql.join([this.filter, aql.literal(`${operator}`)], " ");
+        operator = "AND";
+      }
     }
     if (_isString(value) || _isBoolean(value) || _isNumber(value)) {
       this.filter = aql.join(
