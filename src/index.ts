@@ -330,8 +330,12 @@ export class DbService<T> {
     const query = aql.join(
       [
         aql`FOR doc in ${collection}`,
-        queryBuilder.filter,
-        queryBuilder.sort,
+        queryBuilder.filter
+          ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+          : aql``,
+        queryBuilder.sort
+          ? aql.join([aql`SORT`, queryBuilder.sort], " ")
+          : aql``,
         queryBuilder.limit,
         queryBuilder.returnFilter,
       ],
@@ -345,9 +349,12 @@ export class DbService<T> {
       false,
       !_isEmpty(this._paginate)
     )) as any;
+
+    console.log("DEBUG - aql:", query.query);
+
     if (!_isEmpty(this._paginate)) {
-      console.log("DEBUG -  params.query.$limit:", params.query?.$limit);
-      console.log("DEBUG - result.data:", JSON.stringify(result.data));
+      // console.log("DEBUG -  params.query.$limit:", params.query?.$limit);
+      // console.log("DEBUG - result.data:", JSON.stringify(result.data));
 
       return {
         total: result.total,
@@ -364,11 +371,13 @@ export class DbService<T> {
   public async get(id: Id, params: Params) {
     const { database, collection } = await this.connect();
     const queryBuilder = new QueryBuilder(params);
+    queryBuilder.addFilter("_key", id, "doc", "AND");
     const query: AqlQuery = aql.join(
       [
         aql`FOR doc IN ${collection}`,
-        aql`FILTER doc._key == ${id}`,
-        queryBuilder.filter,
+        queryBuilder.filter
+          ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+          : aql``,
         queryBuilder.returnFilter,
       ],
       " "
@@ -418,7 +427,9 @@ export class DbService<T> {
       query = aql.join(
         [
           aql`FOR doc IN ${collection}`,
-          queryBuilder.filter,
+          queryBuilder.filter
+            ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+            : aql``,
           aql.literal(`${fOpt}`),
           aql`doc WITH ${data} IN ${collection}`,
           aql`LET changed = NEW`,
@@ -472,7 +483,9 @@ export class DbService<T> {
       query = aql.join(
         [
           aql`FOR doc IN ${collection}`,
-          queryBuilder.filter,
+          queryBuilder.filter
+            ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+            : aql``,
           aql`REMOVE doc IN ${collection}`,
           aql`LET removed = OLD`,
           queryBuilder.returnFilter,

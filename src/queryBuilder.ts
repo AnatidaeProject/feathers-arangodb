@@ -143,32 +143,15 @@ export class QueryBuilder {
   addSort(sort: any, docName: string = "doc") {
     if (Object.keys(sort).length > 0) {
       this.sort = aql.join(
-        [
-          aql`SORT`,
-          aql.join(
-            Object.keys(sort).map((key: string) => {
-              return aql.literal(
-                `${docName}.${key} ${parseInt(sort[key]) === -1 ? "DESC" : ""}`
-              );
-            }),
-            ", "
-          ),
-        ],
-        " "
+        Object.keys(sort).map((key: string) => {
+          return aql.literal(
+            `${docName}.${key} ${parseInt(sort[key]) === -1 ? "DESC" : ""}`
+          );
+        }),
+        ", "
       );
     }
   }
-  // Object.keys(sort).forEach(key => {
-  //   /* istanbul ignore next */
-  //   if (this.sort === "") {
-  //     this.sort = "SORT ";
-  //   } else {
-  //     this.sort += ", ";
-  //   }
-  //   this.sort += ` ${docName}.${key} ${
-  //     parseInt(sort[key]) === -1 ? "DESC" : ""
-  //   }`;
-  // });
 
   addFilter(
     key: string,
@@ -190,7 +173,7 @@ export class QueryBuilder {
     if (typeof value === "object" && _isEmpty(value)) return this;
 
     if (this.filter == null) {
-      this.filter = aql`FILTER`;
+      this.filter = aql``;
     } else {
       this.filter = aql.join([this.filter, aql.literal(`${operator}`)], " ");
       operator = "AND";
@@ -261,8 +244,11 @@ export class QueryBuilder {
       /* istanbul ignore next */
       const leftovers = _omit(value, this.reserved);
       /* istanbul ignore next */
-      if (!_isEmpty(leftovers))
+      if (!_isEmpty(leftovers)) {
+        console.log("DEBUG - leftovers:", leftovers);
+
         this._runCheck(value, docName + `.${key}`, "AND");
+      }
     }
     /* istanbul ignore next */
     return this;
