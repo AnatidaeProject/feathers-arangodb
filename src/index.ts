@@ -1,15 +1,16 @@
 import { NotFound } from "@feathersjs/errors";
-import { Database, DocumentCollection } from "arangojs";
-import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
-import { AqlQuery, aql } from "arangojs/lib/cjs/aql-query";
-import { Graph } from "arangojs/lib/cjs/graph";
+import { Database } from "arangojs/database";
+import { DocumentCollection } from "arangojs/collection";
+import { LoadBalancingStrategy, Config } from "arangojs/connection";
+import { AqlQuery, aql } from "arangojs/aql";
+import { Graph } from "arangojs/graph";
 import {
   Application,
   Id,
   NullableId,
   Paginated,
   Params,
-  Service
+  Service,
 } from "@feathersjs/feathers";
 import _isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
@@ -17,8 +18,8 @@ import omit from "lodash/omit";
 import { uuid } from "uuidv4";
 import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
-import { GraphVertexCollection } from "arangojs/lib/cjs/graph";
-import { ArrayCursor } from "arangojs/lib/cjs/cursor";
+import { GraphVertexCollection } from "arangojs/graph";
+import { ArrayCursor } from "arangojs/cursor";
 
 export declare type ArangoDbConfig =
   | string
@@ -40,7 +41,7 @@ export declare type ArangoDbConfig =
 
 export enum AUTH_TYPES {
   BASIC_AUTH = "BASIC_AUTH",
-  BEARER_AUTH = "BEARER_AUTH"
+  BEARER_AUTH = "BEARER_AUTH",
 }
 
 export declare interface Paginate {
@@ -73,7 +74,7 @@ export interface IOptions {
   username?: string;
   password?: string;
   token?: string;
-  dbConfig?: ArangoDbConfig;
+  dbConfig?: Config;
   events?: any[];
   paginate?: Paginate;
 }
@@ -88,7 +89,7 @@ export interface IArangoDbService<T> extends Service<T> {
   setup(): Promise<void>;
 }
 
-export class DbService {
+export class DbService<T> {
   public events: any[] = [];
   public readonly options: IOptions;
   private readonly _id: string;
@@ -155,7 +156,7 @@ export class DbService {
       password,
       token,
       graph,
-      dbConfig
+      dbConfig,
     } = this.options;
     if (this._database === undefined && this._databasePromise) {
       this._database = await this._databasePromise;
@@ -200,8 +201,9 @@ export class DbService {
 
     if (this._collection === undefined) {
       if (this._database instanceof AutoDatabse) {
-        this._collection = await this._database.autoCollection(this.options
-          .collection as string);
+        this._collection = await this._database.autoCollection(
+          this.options.collection as string
+        );
       } else {
         throw `Auto creation of collections requires instance of AutoDatabase`;
       }
@@ -209,7 +211,7 @@ export class DbService {
 
     return {
       database: this._database,
-      collection: this._collection
+      collection: this._collection,
     };
   }
 
@@ -263,12 +265,20 @@ export class DbService {
 
   public fixKeyReturn(item: any): any {
     const idObj: any = {};
-    idObj[this._id] = item._key;
-    const removeKeys = [this._id, "_key"];
-    if (!this.options.expandData) {
-      removeKeys.push("_id", "_rev");
+
+    if (typeof item == "object" && item != null) {
+      if ("_key" in item) {
+        idObj[this._id] = item._key;
+      }
+
+      const removeKeys = [this._id, "_key"];
+      if (!this.options.expandData) {
+        removeKeys.push("_id", "_rev");
+      }
+
+      return { ...idObj, ...omit(item, removeKeys) };
     }
-    return { ...idObj, ...omit(item, removeKeys) };
+    return null;
   }
 
   public async _returnMap(
@@ -278,10 +288,10 @@ export class DbService {
     removeArray = true,
     paging = false
   ) {
-    const cursor: ArrayCursor = <ArrayCursor>(
+    const cursor: ArrayCursor<T> = <ArrayCursor>(
       await database
-        .query(query, { count: paging, options: { fullCount: paging } })
-        .catch(error => {
+        .query(query, { count: paging, fullCount: paging })
+        .catch((error) => {
           if (
             error &&
             error.isArangoError &&
@@ -294,14 +304,20 @@ export class DbService {
           }
         })
     );
-    const result: any[] = await cursor.map(item => this.fixKeyReturn(item));
-    if (result.length === 0 && errorMessage) {
+    const unfiltered: T[] = await cursor.map((item) => this.fixKeyReturn(item));
+    const result = unfiltered.filter((item) => item != null);
+
+    if (
+      (result.length === 0 || (result.length === 1 && result[0] == null)) &&
+      errorMessage
+    ) {
       throw new NotFound(errorMessage);
     }
+
     if (paging) {
       return {
-        total: cursor.extra.stats.fullCount,
-        data: result
+        total: cursor.extra.stats?.fullCount,
+        data: result,
       };
     }
     return result.length > 1 || !removeArray ? result : result[0];
@@ -317,7 +333,7 @@ export class DbService {
         queryBuilder.filter,
         queryBuilder.sort,
         queryBuilder.limit,
-        queryBuilder.returnFilter
+        queryBuilder.returnFilter,
       ],
       " "
     );
@@ -330,13 +346,16 @@ export class DbService {
       !_isEmpty(this._paginate)
     )) as any;
     if (!_isEmpty(this._paginate)) {
+      console.log("DEBUG -  params.query.$limit:", params.query?.$limit);
+      console.log("DEBUG - result.data:", JSON.stringify(result.data));
+
       return {
         total: result.total,
         // @ts-ignore   Will be defined based on previous logic
         limit: params.query.$limit || 0,
         // @ts-ignore   Will be defined based on previous logic
         skip: params.query.$skip || 0,
-        data: result.data
+        data: result.data,
       };
     }
     return result;
@@ -350,7 +369,7 @@ export class DbService {
         aql`FOR doc IN ${collection}`,
         aql`FILTER doc._key == ${id}`,
         queryBuilder.filter,
-        queryBuilder.returnFilter
+        queryBuilder.returnFilter,
       ],
       " "
     );
@@ -390,7 +409,7 @@ export class DbService {
           aql.literal(`${fOpt}`),
           aql`doc WITH ${data} IN ${collection}`,
           aql`LET changed = NEW`,
-          queryBuilder.returnFilter
+          queryBuilder.returnFilter,
         ],
         " "
       );
@@ -403,7 +422,7 @@ export class DbService {
           aql.literal(`${fOpt}`),
           aql`doc WITH ${data} IN ${collection}`,
           aql`LET changed = NEW`,
-          queryBuilder.returnFilter
+          queryBuilder.returnFilter,
         ],
         " "
       );
@@ -456,7 +475,7 @@ export class DbService {
           queryBuilder.filter,
           aql`REMOVE doc IN ${collection}`,
           aql`LET removed = OLD`,
-          queryBuilder.returnFilter
+          queryBuilder.returnFilter,
         ],
         " "
       );
@@ -474,6 +493,8 @@ export class DbService {
   }
 }
 
-export default function ArangoDbService(options: IOptions): DbService | any {
-  return new DbService(options);
+export default function ArangoDbService<T>(
+  options: IOptions
+): DbService<T> | any {
+  return new DbService<T>(options);
 }

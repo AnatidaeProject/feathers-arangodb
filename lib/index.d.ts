@@ -1,10 +1,11 @@
-import { Database, DocumentCollection } from "arangojs";
-import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
-import { AqlQuery } from "arangojs/lib/cjs/aql-query";
-import { Graph } from "arangojs/lib/cjs/graph";
+import { Database } from "arangojs/database";
+import { DocumentCollection } from "arangojs/collection";
+import { LoadBalancingStrategy, Config } from "arangojs/connection";
+import { AqlQuery } from "arangojs/aql";
+import { Graph } from "arangojs/graph";
 import { Application, Id, NullableId, Paginated, Params, Service } from "@feathersjs/feathers";
 import { AutoDatabse } from "./auto-database";
-import { GraphVertexCollection } from "arangojs/lib/cjs/graph";
+import { GraphVertexCollection } from "arangojs/graph";
 export declare type ArangoDbConfig = string | string[] | Partial<{
     url: string | string[];
     isAbsolute: boolean;
@@ -48,7 +49,7 @@ export interface IOptions {
     username?: string;
     password?: string;
     token?: string;
-    dbConfig?: ArangoDbConfig;
+    dbConfig?: Config;
     events?: any[];
     paginate?: Paginate;
 }
@@ -82,14 +83,17 @@ export declare class DbService {
     _injectPagination(params: Params): Params;
     fixKeySend<T>(data: T | T[]): Partial<T> | Array<Partial<T>>;
     fixKeyReturn(item: any): any;
-    _returnMap(database: AutoDatabse | Database, query: AqlQuery, errorMessage?: string, removeArray?: boolean, paging?: boolean): Promise<any>;
+    _returnMap<T>(database: AutoDatabse | Database, query: AqlQuery, errorMessage?: string, removeArray?: boolean, paging?: boolean): Promise<T | T[] | {
+        total: any;
+        data: T[];
+    }>;
     find(params: Params): Promise<any[] | Paginated<any>>;
-    get(id: Id, params: Params): Promise<any>;
-    create(data: Partial<any> | Array<Partial<any>>, params: Params): Promise<any>;
-    _replaceOrPatch(fOpt: string | undefined, id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<any>;
-    update(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<any>;
-    patch(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<any>;
-    remove(id: NullableId | NullableId[], params: Params): Promise<any>;
+    get(id: Id, params: Params): Promise<unknown>;
+    create(data: Partial<any> | Array<Partial<any>>, params: Params): Promise<unknown>;
+    _replaceOrPatch(fOpt: string | undefined, id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
+    update(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
+    patch(id: NullableId | NullableId[], data: Partial<any>, params: Params): Promise<unknown>;
+    remove(id: NullableId | NullableId[], params: Params): Promise<unknown>;
     setup(app: Application, path: string): Promise<void>;
 }
 export default function ArangoDbService(options: IOptions): DbService | any;

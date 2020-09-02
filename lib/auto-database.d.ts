@@ -1,6 +1,7 @@
-import { Database, DocumentCollection } from "arangojs";
-import { Config } from "arangojs/lib/cjs/connection";
-import { Graph, GraphVertexCollection } from "arangojs/lib/cjs/graph";
+import { Database } from "arangojs/database";
+import { DocumentCollection } from "arangojs/collection";
+import { Config } from "arangojs/connection";
+import { Graph, GraphVertexCollection } from "arangojs/graph";
 export declare class AutoDatabse extends Database {
     constructor(config?: Config);
     /**

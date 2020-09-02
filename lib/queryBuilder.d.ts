@@ -1,5 +1,5 @@
 import { Params } from "@feathersjs/feathers";
-import { AqlQuery, AqlValue } from "arangojs/lib/cjs/aql-query";
+import { AqlQuery, AqlValue } from "arangojs/aql";
 export declare class QueryBuilder {
     reserved: string[];
     bindVars: {

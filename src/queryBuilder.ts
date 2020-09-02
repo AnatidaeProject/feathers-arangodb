@@ -8,7 +8,7 @@ import _set from "lodash/set";
 import _isEmpty from "lodash/isEmpty";
 import { Params } from "@feathersjs/feathers";
 import { aql } from "arangojs";
-import { AqlQuery, AqlValue } from "arangojs/lib/cjs/aql-query";
+import { AqlQuery, AqlValue } from "arangojs/aql";
 
 export class QueryBuilder {
   reserved = [
@@ -25,7 +25,7 @@ export class QueryBuilder {
     "$ne",
     "$not",
     "$or",
-    "$aql"
+    "$aql",
   ];
   bindVars: { [key: string]: any } = {};
   maxLimit = 1000000000; // A billion records...
@@ -55,9 +55,9 @@ export class QueryBuilder {
             ? aql.join([
                 aql.literal("{"),
                 this.projectRecursive(v),
-                aql.literal("}")
+                aql.literal("}"),
               ])
-            : aql.literal(`${v}`)
+            : aql.literal(`${v}`),
         ],
         " "
       );
@@ -80,7 +80,7 @@ export class QueryBuilder {
           aql`RETURN`,
           aql.literal("{"),
           this.projectRecursive(ret),
-          aql.literal("}")
+          aql.literal("}"),
         ],
         " "
       );
@@ -113,7 +113,7 @@ export class QueryBuilder {
       switch (testKey) {
         case "$or":
           const aValue = Array.isArray(value) ? value : [value];
-          aValue.forEach(item =>
+          aValue.forEach((item) =>
             this._runCheck(item, docName, returnDocName, "OR")
           );
           break;
@@ -152,7 +152,7 @@ export class QueryBuilder {
               );
             }),
             ", "
-          )
+          ),
         ],
         " "
       );

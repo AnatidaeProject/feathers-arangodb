@@ -28,13 +28,13 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         authType: AUTH_TYPES.BASIC_AUTH,
         username: testUser,
         password: testPass,
-        events: ["testing"]
+        events: ["testing"],
       })
     );
     service = <IArangoDbService<any>>app.service(serviceName);
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     const database = new AutoDatabse();
     database.useBasicAuth(testUser, testPass);
     await database.dropDatabase(testDatabase);
@@ -45,7 +45,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
   beforeEach(async () => {
     const data: any = await service.create({
       name: "Doug",
-      age: 32
+      age: 32,
     });
     _ids.Doug = data[idProp];
   });
@@ -72,8 +72,8 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         password: testPass,
         events: ["testing"],
         dbConfig: {
-          url: "http://localhost:8529"
-        }
+          url: "http://localhost:8529",
+        },
       })
     );
     const otherUrl = <IArangoDbService<any>>app.service("tasks");
@@ -105,7 +105,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     const dbService = ArangoDbService({
       id: idProp,
       collection: testCollection,
-      database: promiseDb
+      database: promiseDb,
     });
     await dbService.connect();
     const info = await dbService.database.get();
@@ -122,7 +122,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     const dbService = ArangoDbService({
       id: idProp,
       collection: collectionPromise,
-      database: db
+      database: db,
     });
     await dbService.connect();
     const info = await dbService.collection.get();
@@ -138,7 +138,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       database: testDatabase,
       authType: AUTH_TYPES.BASIC_AUTH,
       username: testUser,
-      password: testPass
+      password: testPass,
     });
     await dbService.connect();
     expect(dbService.database).toBeDefined();
@@ -152,7 +152,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     const collection = await database.collection(testCollection);
     const dbService = ArangoDbService({
       database,
-      collection
+      collection,
     });
     expect(dbService.database).toBeDefined();
     expect(dbService.collection).toBeDefined();
@@ -163,14 +163,14 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
   });
 
   describe("extend", () => {
-    it("extends and uses extended method", async done => {
+    it("extends and uses extended method", async (done) => {
       const now = new Date().getTime();
       // @ts-ignore  Extend added inside feathersJS via Uberproto
       const extended = service.extend({
         create: function create(data: any) {
           data.time = now;
           return this._super.apply(this, arguments);
-        }
+        },
       });
       const createResult = await extended.create({ name: "Dave" });
       const removeResult = await extended.remove(createResult[idProp]);
@@ -189,21 +189,21 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
     it("supports $select", async () => {
       const result = await service.get(_ids.Doug, {
-        query: { $select: ["name"] }
+        query: { $select: ["name"] },
       });
       expect(result[idProp]).toEqual(_ids.Doug);
       expect(result.name).toEqual("Doug");
       expect(result.age).toBeUndefined();
     });
 
-    it("returns NotFound error for non-existing id", done => {
+    it("returns NotFound error for non-existing id", (done) => {
       const badId = "568225fbfe21222432e836ff";
       service
         .get(badId)
         .then(() => {
           throw Error("Should NOT succeed!!!");
         })
-        .catch(error => {
+        .catch((error) => {
           expect(error instanceof NotFound).toBeTruthy();
           expect(error.message).toEqual(`No record found for id '${badId}'`);
           done();
@@ -219,7 +219,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
     it("deletes an existing instance supports $select", async () => {
       const result = await service.remove(_ids.Doug, {
-        query: { $select: ["name"] }
+        query: { $select: ["name"] },
       });
       expect(result[idProp]).toEqual(_ids.Doug);
       expect(result.name).toEqual("Doug");
@@ -247,8 +247,8 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         age: 19,
         address: {
           line1: "123 Some St.",
-          city: "Sommerville"
-        }
+          city: "Sommerville",
+        },
       });
       _ids.Alice = alice[idProp];
     });
@@ -284,7 +284,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     describe("special filters", () => {
       it("can $sort", async () => {
         const params = {
-          query: { $sort: { name: 1 } }
+          query: { $sort: { name: 1 } },
         };
         const result = <Array<any>>await service.find(params);
         expect(result.length).toEqual(3);
@@ -295,7 +295,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $sort with strings", async () => {
         const params = {
-          query: { $sort: { name: "1" } }
+          query: { $sort: { name: "1" } },
         };
         const result = <Array<any>>await service.find(params);
         expect(result.length).toEqual(3);
@@ -306,7 +306,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $limit", async () => {
         const params = {
-          query: { $limit: 2 }
+          query: { $limit: 2 },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -314,15 +314,18 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $limit 0", async () => {
         const params = {
-          query: { $limit: 0 }
+          query: { $limit: 0 },
         };
         const result = <any[]>await service.find(params);
+
+        console.log("result", JSON.stringify(result));
+
         expect(result.length).toEqual(0);
       });
 
       it("can $skip", async () => {
         const params = {
-          query: { $sort: { name: 1 }, $skip: 1 }
+          query: { $sort: { name: 1 }, $skip: 1 },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -332,7 +335,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $select", async () => {
         const params = {
-          query: { name: "Alice", $select: ["name"] }
+          query: { name: "Alice", $select: ["name"] },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(1);
@@ -344,8 +347,8 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         const params = {
           query: {
             name: "Alice",
-            $select: ["address.line1", "name", "address.city"]
-          }
+            $select: ["address.line1", "name", "address.city"],
+          },
         };
         const result = <any[]>await service.find(params);
 
@@ -360,8 +363,8 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         const params = {
           query: {
             $or: [{ name: "Alice" }, { name: "Bob" }],
-            $sort: { name: 1 }
-          }
+            $sort: { name: 1 },
+          },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -371,7 +374,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $not", async () => {
         const params = {
-          query: { age: { $not: 19 }, name: { $not: "Doug" } }
+          query: { age: { $not: 19 }, name: { $not: "Doug" } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(1);
@@ -380,7 +383,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $in", async () => {
         const params = {
-          query: { name: { $in: ["Alice", "Bob"] }, $sort: { name: 1 } }
+          query: { name: { $in: ["Alice", "Bob"] }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -390,7 +393,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $nin", async () => {
         const params = {
-          query: { name: { $nin: ["Alice", "Bob"] } }
+          query: { name: { $nin: ["Alice", "Bob"] } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(1);
@@ -399,7 +402,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $lt", async () => {
         const params = {
-          query: { age: { $lt: 30 }, $sort: { name: 1 } }
+          query: { age: { $lt: 30 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -409,7 +412,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $lte", async () => {
         const params = {
-          query: { age: { $lte: 25 }, $sort: { name: 1 } }
+          query: { age: { $lte: 25 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -419,7 +422,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $gt", async () => {
         const params = {
-          query: { age: { $gt: 30 }, $sort: { name: 1 } }
+          query: { age: { $gt: 30 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(1);
@@ -428,7 +431,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $gte", async () => {
         const params = {
-          query: { age: { $gte: 25 }, $sort: { name: 1 } }
+          query: { age: { $gte: 25 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -438,7 +441,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $ne", async () => {
         const params = {
-          query: { age: { $ne: 25 }, $sort: { name: 1 } }
+          query: { age: { $ne: 25 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -448,7 +451,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
 
       it("can $gt and $lt and $sort", async () => {
         const params = {
-          query: { age: { $gt: 18, $lt: 30 }, $sort: { name: 1 } }
+          query: { age: { $gt: 18, $lt: 30 }, $sort: { name: 1 } },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -464,12 +467,12 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
               {
                 age: {
                   $gte: 18,
-                  $lt: 25
-                }
-              }
+                  $lt: 25,
+                },
+              },
             ],
-            $sort: { name: 1 }
-          }
+            $sort: { name: 1 },
+          },
         };
         const result = <any[]>await service.find(params);
         expect(result.length).toEqual(2);
@@ -534,18 +537,18 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       const newData: any = { name: "Dougler", age: 10 };
       newData[idProp] = _ids.Doug;
       const result = await service.update(_ids.Doug, newData, {
-        query: { $select: ["name"] }
+        query: { $select: ["name"] },
       });
       expect(result[idProp]).toEqual(_ids.Doug);
       expect(result.name).toEqual("Dougler");
       expect(result.age).toBeUndefined();
     });
 
-    it("returns NotFound error for non-existing id", async done => {
+    it("returns NotFound error for non-existing id", async (done) => {
       const badId = "568225fbfe21222432e836ff";
       const newData: any = { name: "NotFound" };
       newData[idProp] = badId;
-      await service.update(badId, newData).catch(error => {
+      await service.update(badId, newData).catch((error) => {
         expect(error instanceof NotFound).toBeTruthy();
         expect(error.message).toEqual(`No record found for id '${badId}'`);
         done();
@@ -567,14 +570,14 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       const newData: any = { name: "PatchDoug" };
       newData[idProp] = _ids.Doug;
       const result = await service.patch(_ids.Doug, newData, {
-        query: { $select: ["name"] }
+        query: { $select: ["name"] },
       });
       expect(result[idProp]).toEqual(_ids.Doug);
       expect(result.name).toEqual("PatchDoug");
       expect(result.age).toBeUndefined();
     });
 
-    it("patches multiple instances", async done => {
+    it("patches multiple instances", async (done) => {
       const params = { query: { created: true } };
       await service.create({ name: "Dave", age: 29, created: true });
       await service.create({ name: "David", age: 3, created: true });
@@ -586,7 +589,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       done();
     });
 
-    it("patches multiple instances and returns the actually changed items", async done => {
+    it("patches multiple instances and returns the actually changed items", async (done) => {
       const params = { query: { age: { $lt: 10 } } };
       await service.create({ name: "Dave", age: 8, created: true });
       await service.create({ name: "David", age: 4, created: true });
@@ -598,7 +601,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       done();
     });
 
-    it("patches multiple, returns correct items", async done => {
+    it("patches multiple, returns correct items", async (done) => {
       await service.create({ name: "Dave", age: 2, created: true });
       await service.create({ name: "David", age: 2, created: true });
       await service.create({ name: "Frank", age: 8, created: true });
@@ -614,11 +617,11 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       done();
     });
 
-    it("returns NotFound error for non-existing id", async done => {
+    it("returns NotFound error for non-existing id", async (done) => {
       const badId = "568225fbfe21222432e836ff";
       const newData: any = { name: "NotFound" };
       newData[idProp] = badId;
-      await service.patch(badId, newData).catch(error => {
+      await service.patch(badId, newData).catch((error) => {
         expect(error instanceof NotFound).toBeTruthy();
         expect(error.message).toEqual(`No record found for id '${badId}'`);
         done();
@@ -638,7 +641,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     it("creates a single new instance, supports $select", async () => {
       const originalData = { name: "William", age: 23 };
       const result = await service.create(originalData, {
-        query: { $select: ["name"] }
+        query: { $select: ["name"] },
       });
       expect(result).toBeDefined();
       expect(result.name).toEqual("William");
@@ -650,12 +653,12 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
       const originalData = [
         {
           name: "Gerald",
-          age: 18
+          age: 18,
         },
         {
           name: "Herald",
-          age: 18
-        }
+          age: 18,
+        },
       ];
       const result = await service.create(originalData);
       expect(result).toBeDefined();
@@ -695,7 +698,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
         },
         remove: function remove() {
           throw new Error("remove method called");
-        }
+        },
       });
     });
 
@@ -710,7 +713,7 @@ describe(`Feathers common tests, ${serviceName} service with \\${idProp}\\ id pr
     it("create", async () => {
       const result = await service.create.call(throwing, {
         name: "Bob",
-        age: 25
+        age: 25,
       });
       await service.remove(result[idProp]);
     });
@@ -734,7 +737,7 @@ function getTestData(key: string | number): any {
     1: {
       name: "Alice",
       age: 23,
-      color: "blue"
-    }
+      color: "blue",
+    },
   };
 }
