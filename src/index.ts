@@ -20,6 +20,7 @@ import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
 import { GraphVertexCollection } from "arangojs/graph";
 import { ArrayCursor } from "arangojs/cursor";
+import { View } from "arangojs/view";
 
 export declare type ArangoDbConfig =
   | string
@@ -53,6 +54,7 @@ export interface IConnectResponse {
   database: AutoDatabse | Database;
   collection: DocumentCollection | GraphVertexCollection;
   graph?: Graph;
+  view?: View;
 }
 
 export interface IGraphOptions {
@@ -63,11 +65,15 @@ export interface IGraphOptions {
 export interface IOptions {
   id?: string;
   expandData?: boolean;
-  collection:
+  collection: 
     | DocumentCollection
     | GraphVertexCollection
     | string
     | Promise<DocumentCollection | GraphVertexCollection>;
+  view?: 
+    | View
+    | string
+    | Promise<View>;
   database: AutoDatabse | Database | string | Promise<AutoDatabse | Database>;
   graph?: Graph | IGraphOptions;
   authType?: AUTH_TYPES;
@@ -85,6 +91,7 @@ export interface IArangoDbService<T> extends Service<T> {
   readonly id: string;
   readonly database: Database;
   readonly collection: DocumentCollection | GraphVertexCollection;
+  readonly view: View;
   connect(): Promise<IConnectResponse>;
   setup(): Promise<void>;
 }
@@ -98,6 +105,10 @@ export class DbService<T> {
   private _collection: DocumentCollection | GraphVertexCollection | undefined;
   private _collectionPromise:
     | Promise<DocumentCollection | GraphVertexCollection>
+    | undefined;
+  private _view: View | undefined;
+  private _viewPromise:
+    | Promise<View>
     | undefined;
   private _graph: Graph | undefined;
   private _graphPromise: Promise<Graph> | undefined;
@@ -146,6 +157,16 @@ export class DbService<T> {
       );
     } else if (!options.collection) {
       throw new Error("Collection reference or name (string) is required");
+    }
+
+    // Set the view if it is connected
+    /* istanbul ignore next */
+    if (options.view instanceof Promise) {
+      this._viewPromise = options.view;
+    } else if (!isString(options.view) && !!options.view) {
+      this._view = <View>(
+        options.view
+      );
     }
   }
 
@@ -209,9 +230,24 @@ export class DbService<T> {
       }
     }
 
+    if (this._viewPromise) {
+      this._view = await this._viewPromise;
+    }
+
+    if (this._view === undefined) {
+      if (this._database instanceof AutoDatabse) {
+        this._view = await this._database.autoView(
+          this.options.view as string
+        );
+      } else {
+        throw `Auto creation of collections requires instance of AutoDatabase`;
+      }
+    }
+
     return {
       database: this._database,
       collection: this._collection,
+      view: this._view
     };
   }
 
@@ -225,6 +261,10 @@ export class DbService<T> {
 
   get collection(): DocumentCollection | GraphVertexCollection | undefined {
     return this._collection;
+  }
+
+  get view(): View | undefined {
+    return this._view;
   }
 
   get paginate(): Paginate {
@@ -324,12 +364,15 @@ export class DbService<T> {
   }
 
   public async find(params: Params): Promise<any[] | Paginated<any>> {
-    const { database, collection } = await this.connect();
+    let { database, collection, view} = await this.connect();
     params = this._injectPagination(params);
-    const queryBuilder = new QueryBuilder(params);
+    const queryBuilder = new QueryBuilder(params, collection.name);
     const query = aql.join(
       [
-        aql`FOR doc in ${collection}`,
+        aql`FOR doc in ${queryBuilder.search ? view :collection}`,
+        queryBuilder.search
+          ? aql.join([aql`SEARCH`, queryBuilder.search], " ")
+          : aql``,
         queryBuilder.filter
           ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
           : aql``,

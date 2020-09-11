@@ -6,6 +6,7 @@ import { Graph } from "arangojs/graph";
 import { Application, Id, NullableId, Paginated, Params, Service } from "@feathersjs/feathers";
 import { AutoDatabse } from "./auto-database";
 import { GraphVertexCollection } from "arangojs/graph";
+import { View } from "arangojs/view";
 export declare type ArangoDbConfig = string | string[] | Partial<{
     url: string | string[];
     isAbsolute: boolean;
@@ -32,6 +33,7 @@ export interface IConnectResponse {
     database: AutoDatabse | Database;
     collection: DocumentCollection | GraphVertexCollection;
     graph?: Graph;
+    view?: View;
 }
 export interface IGraphOptions {
     properties?: any;
@@ -43,6 +45,7 @@ export interface IOptions {
     id?: string;
     expandData?: boolean;
     collection: DocumentCollection | GraphVertexCollection | string | Promise<DocumentCollection | GraphVertexCollection>;
+    view?: View | string | Promise<View>;
     database: AutoDatabse | Database | string | Promise<AutoDatabse | Database>;
     graph?: Graph | IGraphOptions;
     authType?: AUTH_TYPES;
@@ -59,6 +62,7 @@ export interface IArangoDbService<T> extends Service<T> {
     readonly id: string;
     readonly database: Database;
     readonly collection: DocumentCollection | GraphVertexCollection;
+    readonly view: View;
     connect(): Promise<IConnectResponse>;
     setup(): Promise<void>;
 }
@@ -70,6 +74,8 @@ export declare class DbService<T> {
     private _databasePromise;
     private _collection;
     private _collectionPromise;
+    private _view;
+    private _viewPromise;
     private _graph;
     private _graphPromise;
     private _paginate;
@@ -78,6 +84,7 @@ export declare class DbService<T> {
     get id(): string;
     get database(): AutoDatabse | Database | undefined;
     get collection(): DocumentCollection | GraphVertexCollection | undefined;
+    get view(): View | undefined;
     get paginate(): Paginate;
     set paginate(option: Paginate);
     _injectPagination(params: Params): Params;

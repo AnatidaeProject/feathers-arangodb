@@ -1,5 +1,6 @@
 import { Database } from "arangojs/database";
 import { DocumentCollection } from "arangojs/collection";
+import { View } from "arangojs/view";
 import { Config } from "arangojs/connection";
 import { Graph, GraphVertexCollection } from "arangojs/graph";
 export declare class AutoDatabse extends Database {
@@ -21,4 +22,5 @@ export declare class AutoDatabse extends Database {
      * @param graphRef
      */
     autoCollection(collectionName: string, graphRef?: Graph): Promise<DocumentCollection | GraphVertexCollection>;
+    autoView(view: string): Promise<View | undefined>;
 }

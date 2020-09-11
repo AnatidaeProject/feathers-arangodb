@@ -9,6 +9,7 @@ import _isEmpty from "lodash/isEmpty";
 import { Params } from "@feathersjs/feathers";
 import { aql } from "arangojs";
 import { AqlQuery, AqlValue } from "arangojs/aql";
+import { AqlLiteral } from "arangojs/aql";
 
 export class QueryBuilder {
   reserved = [
@@ -27,6 +28,7 @@ export class QueryBuilder {
     "$or",
     "$aql",
     "$resolve",
+    "$search"
   ];
   bindVars: { [key: string]: any } = {};
   maxLimit = 1000000000; // A billion records...
@@ -36,13 +38,17 @@ export class QueryBuilder {
   sort?: AqlQuery;
   filter?: AqlQuery;
   returnFilter?: AqlQuery;
+  _collection: string;
+  search?: AqlLiteral;
   varCount: number = 0;
 
   constructor(
     params: Params,
+    collectionName: string = "",
     docName: string = "doc",
     returnDocName: string = "doc"
   ) {
+    this._collection = collectionName;
     this.create(params, docName, returnDocName);
   }
 
@@ -130,6 +136,9 @@ export class QueryBuilder {
         case "$sort":
           this.addSort(value, docName);
           break;
+        case "$search":
+          this.addSearch(value, docName);
+          break;
         default:
           this.addFilter(key, value, docName, operator);
       }
@@ -152,6 +161,28 @@ export class QueryBuilder {
         }),
         ", "
       );
+    }
+  }
+
+  addSearch(query: any, docName: string = "doc") {
+    switch(this._collection) {
+      case 'person':
+        this.search = aql.literal(
+          `NGRAM_MATCH(${docName}.firstName, "${query}", 0.8, "trigram")
+          OR NGRAM_MATCH(${docName}.lastName, "${query}", 0.8, "trigram")
+          OR NGRAM_MATCH(${docName}.displayName, "${query}", 0.5, "trigram")
+          OR ${docName}.personID == ${parseInt(query) || 0}
+          FILTER bm25(${docName}) > 15
+          SORT bm25(${docName}) DESC`
+        );
+        break;
+      default: 
+        this.search = aql.literal(
+          `NGRAM_MATCH(${docName}.name, ${query}, 0.8, "trigram")
+          FILTER bm25(${docName}) > 15
+          SORT bm25(${docName}) DESC`
+        );
+        break;
     }
   }
 
