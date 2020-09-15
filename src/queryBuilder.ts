@@ -169,17 +169,30 @@ export class QueryBuilder {
       case 'person':
         this.search = aql.literal(
           `NGRAM_MATCH(${docName}.firstName, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(${docName}.firstName, "${query}")
           OR NGRAM_MATCH(${docName}.lastName, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(${docName}.lastName, "${query}")
           OR NGRAM_MATCH(${docName}.displayName, "${query}", 0.5, "trigram")
           OR ${docName}.personID == ${parseInt(query) || 0}
-          SORT bm25(${docName}) DESC`
-        );
+          SORT bm25(${docName}) DESC`);
         break;
-      default: 
-        this.search = aql.literal(
-          `NGRAM_MATCH(${docName}.name, ${query}, 0.7, "trigram")
-          SORT bm25(${docName}) DESC`
-        );
+      case 'country':
+        this.search = aql.literal(`NGRAM_MATCH(${docName}.nameEn, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(${docName}.nameEn, "${query}")
+          OR NGRAM_MATCH(${docName}.nameNo, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(${docName}.nameNo, "${query}")
+          SORT bm25(${docName}) DESC`);
+        break;
+      case 'org':
+        this.search = aql.literal(`NGRAM_MATCH(${docName}.name, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(${docName}.name, "${query}")
+          OR ${docName}.churchID == ${parseInt(query) || 0}
+          SORT bm25(${docName}) DESC`);
+        break;
+      default:
+        this.search = aql.literal(`NGRAM_MATCH(${docName}.name, "${query}", 0.8, "trigram")
+          OR STARTS_WITH(${docName}.name, "${query}")
+          SORT bm25(${docName}) DESC`);
         break;
     }
   }
