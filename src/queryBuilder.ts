@@ -176,6 +176,18 @@ export class QueryBuilder {
           OR ${docName}.personID == ${parseInt(query) || 0}
           SORT bm25(${docName}) DESC`);
         break;
+      case 'person_role':
+        this.search = aql.literal(
+          `${docName}._from IN ( FOR r IN person_view SEARCH
+          NGRAM_MATCH(r.firstName, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(r.firstName, "${query}")
+          OR NGRAM_MATCH(r.lastName, "${query}", 0.6, "trigram")
+          OR STARTS_WITH(r.lastName, "${query}")
+          OR NGRAM_MATCH(r.displayName, "${query}", 0.5, "trigram")
+          OR r.personID == ${parseInt(query) || 0}
+          SORT bm25(r) DESC RETURN r._id )
+          SORT bm25(${docName}) DESC`);
+        break;
       case 'country':
         this.search = aql.literal(`NGRAM_MATCH(${docName}.nameEn, "${query}", 0.6, "trigram")
           OR STARTS_WITH(${docName}.nameEn, "${query}")
