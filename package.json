@@ -1,6 +1,6 @@
 {
   "name": "feathers-arangodb",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "ArangoDB Service/Adapter for FeathersJS",
   "homepage": "https://github.com/AnatidaeProject/feathers-arangodb",
   "main": "lib/",
