@@ -454,7 +454,7 @@ export class DbService<T> {
     const ids: NullableId[] = Array.isArray(id) ? id : [id];
     let query: AqlQuery;
     if (ids.length > 0 && (ids[0] != null || ids[0] != undefined)) {
-      const queryBuilder = new QueryBuilder(params, "doc", "changed");
+      const queryBuilder = new QueryBuilder(params, "", "doc", "changed");
       query = aql.join(
         [
           aql`FOR doc IN ${ids}`,
@@ -466,7 +466,7 @@ export class DbService<T> {
         " "
       );
     } else {
-      const queryBuilder = new QueryBuilder(params, "doc", "changed");
+      const queryBuilder = new QueryBuilder(params, "", "doc", "changed");
       query = aql.join(
         [
           aql`FOR doc IN ${collection}`,
@@ -514,7 +514,7 @@ export class DbService<T> {
     // Build query
     let query: AqlQuery;
     if (id && (!Array.isArray(id) || (Array.isArray(id) && id.length > 0))) {
-      const queryBuilder = new QueryBuilder(params, "doc", "removed");
+      const queryBuilder = new QueryBuilder(params, "", "doc", "removed");
       query = aql`
         FOR doc IN ${ids}
           REMOVE doc IN ${collection}
@@ -522,7 +522,7 @@ export class DbService<T> {
           ${queryBuilder.returnFilter}
       `;
     } else {
-      const queryBuilder = new QueryBuilder(params, "doc", "removed");
+      const queryBuilder = new QueryBuilder(params, "", "doc", "removed");
       query = aql.join(
         [
           aql`FOR doc IN ${collection}`,
