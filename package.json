@@ -1,5 +1,5 @@
 {
-  "name": "feathers-arangodb",
+  "name": "@bccfeathers-arangodb",
   "version": "2.1.6",
   "description": "ArangoDB Service/Adapter for FeathersJS",
   "homepage": "https://github.com/AnatidaeProject/feathers-arangodb",
@@ -24,8 +24,7 @@
     "arangodb",
     "service"
   ],
-  "scripts": {
-    "publish": "git push origin --tags && npm run changelog && git push origin",
+  "scripts": {    
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
