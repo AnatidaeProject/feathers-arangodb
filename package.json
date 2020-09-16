@@ -8,7 +8,7 @@
   "author": "Brian McBride",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Brian-McBride/feathers-arangodb.git"
+    "url": "git://github.com/bcc-its/feathers-arangodb.git"
   },
   "bugs": {
     "url": "https://github.com/Brian-McBride/feathers-arangodb/issues"
