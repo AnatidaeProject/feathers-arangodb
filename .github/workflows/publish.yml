@@ -12,6 +12,7 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://npm.pkg.github.com'
+        registry: 'https://npm.pkg.github.com'
         # Defaults to the user or organization that owns the workflow file
         #scope: '@bcc-its'
   #  - run: npm install
