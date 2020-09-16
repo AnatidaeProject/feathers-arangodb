@@ -1,7 +1,7 @@
 name: Node.js Package
 on:
-  release:
-    types: [created]
+  push:
+    branches: [test-github-actions]
 jobs:
   build:
     runs-on: ubuntu-latest
