@@ -35,3 +35,6 @@ dist/
 .idea/
 
 junit.xml
+
+# All files in the lib filder get generated automatically during the build
+lib
