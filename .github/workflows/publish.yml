@@ -16,6 +16,7 @@ jobs:
         #scope: '@bcc-its'
   #  - run: npm install
   #  - run: npm build
+    - run: npm config ls -l  
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
