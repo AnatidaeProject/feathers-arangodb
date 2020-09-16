@@ -30,6 +30,8 @@ node_modules
 .lock-wscript
 
 dist/
-lib/
+
 
 .idea/
+
+junit.xml

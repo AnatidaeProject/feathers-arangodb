@@ -1,25 +1,26 @@
 import { NotFound } from "@feathersjs/errors";
-import { Database, DocumentCollection } from "arangojs";
-import { LoadBalancingStrategy } from "arangojs/lib/async/connection";
-import { AqlQuery } from "arangojs/lib/cjs/aql-query";
-import { ArangoError } from "arangojs/lib/cjs/error";
-import { Graph } from "arangojs/lib/cjs/graph";
+import { Database } from "arangojs/database";
+import { DocumentCollection } from "arangojs/collection";
+import { LoadBalancingStrategy, Config } from "arangojs/connection";
+import { AqlQuery, aql } from "arangojs/aql";
+import { Graph } from "arangojs/graph";
 import {
   Application,
   Id,
   NullableId,
   Paginated,
   Params,
-  Service
-} from "feathersjs__feathers";
-import _isEmpty from "lodash.isempty";
-import isString from "lodash.isstring";
-import omit from "lodash.omit";
-import uuid from "uuid/v4";
+  Service,
+} from "@feathersjs/feathers";
+import _isEmpty from "lodash/isEmpty";
+import isString from "lodash/isString";
+import omit from "lodash/omit";
+import { uuid } from "uuidv4";
 import { AutoDatabse } from "./auto-database";
 import { QueryBuilder } from "./queryBuilder";
-import { GraphVertexCollection } from "arangojs/lib/cjs/graph";
-import { ArrayCursor } from "arangojs/lib/cjs/cursor";
+import { GraphVertexCollection } from "arangojs/graph";
+import { ArrayCursor } from "arangojs/cursor";
+import { View } from "arangojs/view";
 
 export declare type ArangoDbConfig =
   | string
@@ -41,7 +42,7 @@ export declare type ArangoDbConfig =
 
 export enum AUTH_TYPES {
   BASIC_AUTH = "BASIC_AUTH",
-  BEARER_AUTH = "BEARER_AUTH"
+  BEARER_AUTH = "BEARER_AUTH",
 }
 
 export declare interface Paginate {
@@ -53,6 +54,7 @@ export interface IConnectResponse {
   database: AutoDatabse | Database;
   collection: DocumentCollection | GraphVertexCollection;
   graph?: Graph;
+  view?: View;
 }
 
 export interface IGraphOptions {
@@ -63,18 +65,22 @@ export interface IGraphOptions {
 export interface IOptions {
   id?: string;
   expandData?: boolean;
-  collection:
+  collection: 
     | DocumentCollection
     | GraphVertexCollection
     | string
     | Promise<DocumentCollection | GraphVertexCollection>;
+  view?: 
+    | View
+    | string
+    | Promise<View>;
   database: AutoDatabse | Database | string | Promise<AutoDatabse | Database>;
   graph?: Graph | IGraphOptions;
   authType?: AUTH_TYPES;
   username?: string;
   password?: string;
   token?: string;
-  dbConfig?: ArangoDbConfig;
+  dbConfig?: Config;
   events?: any[];
   paginate?: Paginate;
 }
@@ -85,11 +91,12 @@ export interface IArangoDbService<T> extends Service<T> {
   readonly id: string;
   readonly database: Database;
   readonly collection: DocumentCollection | GraphVertexCollection;
+  readonly view: View;
   connect(): Promise<IConnectResponse>;
   setup(): Promise<void>;
 }
 
-export class DbService {
+export class DbService<T> {
   public events: any[] = [];
   public readonly options: IOptions;
   private readonly _id: string;
@@ -98,6 +105,10 @@ export class DbService {
   private _collection: DocumentCollection | GraphVertexCollection | undefined;
   private _collectionPromise:
     | Promise<DocumentCollection | GraphVertexCollection>
+    | undefined;
+  private _view: View | undefined;
+  private _viewPromise:
+    | Promise<View>
     | undefined;
   private _graph: Graph | undefined;
   private _graphPromise: Promise<Graph> | undefined;
@@ -132,8 +143,7 @@ export class DbService {
 
     if (options.graph instanceof Promise) {
       this._graphPromise = options.graph;
-    }
-    else if (options.graph instanceof Graph) {
+    } else if (options.graph instanceof Graph) {
       this._graph = options.graph;
     }
 
@@ -148,10 +158,27 @@ export class DbService {
     } else if (!options.collection) {
       throw new Error("Collection reference or name (string) is required");
     }
+
+    // Set the view if it is connected
+    /* istanbul ignore next */
+    if (options.view instanceof Promise) {
+      this._viewPromise = options.view;
+    } else if (!isString(options.view) && !!options.view) {
+      this._view = <View>(
+        options.view
+      );
+    }
   }
 
   public async connect(): Promise<IConnectResponse> {
-    const { authType, username, password, token, graph, dbConfig } = this.options;
+    const {
+      authType,
+      username,
+      password,
+      token,
+      graph,
+      dbConfig,
+    } = this.options;
     if (this._database === undefined && this._databasePromise) {
       this._database = await this._databasePromise;
     }
@@ -195,8 +222,23 @@ export class DbService {
 
     if (this._collection === undefined) {
       if (this._database instanceof AutoDatabse) {
-        this._collection = await this._database.autoCollection(this.options
-          .collection as string);
+        this._collection = await this._database.autoCollection(
+          this.options.collection as string
+        );
+      } else {
+        throw `Auto creation of collections requires instance of AutoDatabase`;
+      }
+    }
+
+    if (this._viewPromise) {
+      this._view = await this._viewPromise;
+    }
+
+    if (this._view === undefined) {
+      if (this._database instanceof AutoDatabse) {
+        this._view = await this._database.autoView(
+          this.options.view as string
+        );
       } else {
         throw `Auto creation of collections requires instance of AutoDatabase`;
       }
@@ -204,7 +246,8 @@ export class DbService {
 
     return {
       database: this._database,
-      collection: this._collection
+      collection: this._collection,
+      view: this._view
     };
   }
 
@@ -218,6 +261,10 @@ export class DbService {
 
   get collection(): DocumentCollection | GraphVertexCollection | undefined {
     return this._collection;
+  }
+
+  get view(): View | undefined {
+    return this._view;
   }
 
   get paginate(): Paginate {
@@ -252,18 +299,26 @@ export class DbService {
     }
     return aData.map((item: any) => {
       const id = item[this._id] || uuid();
-      return { _key: id, ...omit(item, "_id", "_rev", "_key") };
+      return { _key: id, ...(omit(item, "_id", "_rev", "_key") as Partial<T>) };
     }) as Array<Partial<T>>;
   }
 
   public fixKeyReturn(item: any): any {
     const idObj: any = {};
-    idObj[this._id] = item._key;
-    const removeKeys = [this._id, "_key"];
-    if (!this.options.expandData) {
-      removeKeys.push("_id", "_rev");
+
+    if (typeof item == "object" && item != null) {
+      if ("_key" in item) {
+        idObj[this._id] = item._key;
+      }
+
+      const removeKeys = [this._id, "_key"];
+      if (!this.options.expandData) {
+        removeKeys.push("_id", "_rev");
+      }
+
+      return { ...idObj, ...omit(item, removeKeys) };
     }
-    return { ...idObj, ...omit(item, removeKeys) };
+    return null;
   }
 
   public async _returnMap(
@@ -273,10 +328,10 @@ export class DbService {
     removeArray = true,
     paging = false
   ) {
-    const cursor: ArrayCursor = <ArrayCursor>(
+    const cursor: ArrayCursor<T> = <ArrayCursor>(
       await database
-        .query(query, { count: paging, options: { fullCount: paging } })
-        .catch(error => {
+        .query(query, { count: paging, fullCount: paging })
+        .catch((error) => {
           if (
             error &&
             error.isArangoError &&
@@ -289,34 +344,47 @@ export class DbService {
           }
         })
     );
-    const result: any[] = await cursor.map(item => this.fixKeyReturn(item));
-    if (result.length === 0 && errorMessage) {
+    const unfiltered: T[] = await cursor.map((item) => this.fixKeyReturn(item));
+    const result = unfiltered.filter((item) => item != null);
+
+    if (
+      (result.length === 0 || (result.length === 1 && result[0] == null)) &&
+      errorMessage
+    ) {
       throw new NotFound(errorMessage);
     }
+
     if (paging) {
       return {
-        total: cursor.extra.stats.fullCount,
-        data: result
+        total: cursor.extra.stats?.fullCount,
+        data: result,
       };
     }
     return result.length > 1 || !removeArray ? result : result[0];
   }
 
   public async find(params: Params): Promise<any[] | Paginated<any>> {
-    const { database, collection } = await this.connect();
+    let { database, collection, view} = await this.connect();
     params = this._injectPagination(params);
-    const queryBuilder = new QueryBuilder(params);
-    const colVar = queryBuilder.addBindVar(collection.name, true);
-    const query: AqlQuery = {
-      query: `
-        FOR doc IN ${colVar}
-          ${queryBuilder.filter}
-          ${queryBuilder.sort}
-          ${queryBuilder.limit}
-          ${queryBuilder.returnFilter}
-      `,
-      bindVars: queryBuilder.bindVars
-    };
+    const queryBuilder = new QueryBuilder(params, collection.name);
+    const query = aql.join(
+      [
+        aql`FOR doc in ${queryBuilder.search ? view :collection}`,
+        queryBuilder.search
+          ? aql.join([aql`SEARCH`, queryBuilder.search], " ")
+          : aql``,
+        queryBuilder.filter
+          ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+          : aql``,
+        queryBuilder.sort
+          ? aql.join([aql`SORT`, queryBuilder.sort], " ")
+          : aql``,
+        queryBuilder.limit,
+        queryBuilder.returnFilter,
+      ],
+      " "
+    );
+
     const result = (await this._returnMap(
       database,
       query,
@@ -324,14 +392,20 @@ export class DbService {
       false,
       !_isEmpty(this._paginate)
     )) as any;
+
+    console.log("DEBUG - aql:", query.query);
+
     if (!_isEmpty(this._paginate)) {
+      // console.log("DEBUG -  params.query.$limit:", params.query?.$limit);
+      // console.log("DEBUG - result.data:", JSON.stringify(result.data));
+
       return {
         total: result.total,
         // @ts-ignore   Will be defined based on previous logic
         limit: params.query.$limit || 0,
         // @ts-ignore   Will be defined based on previous logic
         skip: params.query.$skip || 0,
-        data: result.data
+        data: result.data,
       };
     }
     return result;
@@ -340,15 +414,17 @@ export class DbService {
   public async get(id: Id, params: Params) {
     const { database, collection } = await this.connect();
     const queryBuilder = new QueryBuilder(params);
-    const query: AqlQuery = {
-      query: `
-        FOR doc IN ${queryBuilder.addBindVar(collection.name, true)}
-          FILTER doc._key == ${queryBuilder.addBindVar(id)}
-          ${queryBuilder.filter}
-          ${queryBuilder.returnFilter}
-      `,
-      bindVars: queryBuilder.bindVars
-    };
+    queryBuilder.addFilter("_key", id, "doc", "AND");
+    const query: AqlQuery = aql.join(
+      [
+        aql`FOR doc IN ${collection}`,
+        queryBuilder.filter
+          ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+          : aql``,
+        queryBuilder.returnFilter,
+      ],
+      " "
+    );
     return this._returnMap(database, query, `No record found for id '${id}'`);
   }
 
@@ -359,15 +435,12 @@ export class DbService {
     data = this.fixKeySend(data);
     const { database, collection } = await this.connect();
     const queryBuilder = new QueryBuilder(params);
-    const query: AqlQuery = {
-      query: `
-        FOR item IN ${queryBuilder.addBindVar(data)}
-          INSERT item IN ${queryBuilder.addBindVar(collection.name, true)}
+
+    const query = aql`
+        FOR item IN ${data}
+          INSERT item IN ${collection}
           let doc = NEW
-          ${queryBuilder.returnFilter}
-      `,
-      bindVars: queryBuilder.bindVars
-    };
+        ${queryBuilder.returnFilter}`;
     return this._returnMap(database, query);
   }
 
@@ -381,30 +454,32 @@ export class DbService {
     const ids: NullableId[] = Array.isArray(id) ? id : [id];
     let query: AqlQuery;
     if (ids.length > 0 && (ids[0] != null || ids[0] != undefined)) {
-      const queryBuilder = new QueryBuilder(params, "doc", "changed");
-      const colRef = queryBuilder.addBindVar(collection.name, true);
-      query = {
-        query: `
-        FOR doc IN ${queryBuilder.addBindVar(ids)}
-          ${fOpt} doc WITH ${queryBuilder.addBindVar(data)} IN ${colRef}
-          LET changed = NEW
-          ${queryBuilder.returnFilter}
-      `,
-        bindVars: queryBuilder.bindVars
-      };
+      const queryBuilder = new QueryBuilder(params, "", "doc", "changed");
+      query = aql.join(
+        [
+          aql`FOR doc IN ${ids}`,
+          aql.literal(`${fOpt}`),
+          aql`doc WITH ${data} IN ${collection}`,
+          aql`LET changed = NEW`,
+          queryBuilder.returnFilter,
+        ],
+        " "
+      );
     } else {
-      const queryBuilder = new QueryBuilder(params, "doc", "changed");
-      const colRef = queryBuilder.addBindVar(collection.name, true);
-      query = {
-        query: `
-        FOR doc IN ${colRef}
-          ${queryBuilder.filter}
-          ${fOpt} doc WITH ${queryBuilder.addBindVar(data)} IN ${colRef}
-          LET changed = NEW
-          ${queryBuilder.returnFilter}
-      `,
-        bindVars: queryBuilder.bindVars
-      };
+      const queryBuilder = new QueryBuilder(params, "", "doc", "changed");
+      query = aql.join(
+        [
+          aql`FOR doc IN ${collection}`,
+          queryBuilder.filter
+            ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+            : aql``,
+          aql.literal(`${fOpt}`),
+          aql`doc WITH ${data} IN ${collection}`,
+          aql`LET changed = NEW`,
+          queryBuilder.returnFilter,
+        ],
+        " "
+      );
     }
     return this._returnMap(database, query, `No record found for id '${id}'`);
   }
@@ -439,29 +514,27 @@ export class DbService {
     // Build query
     let query: AqlQuery;
     if (id && (!Array.isArray(id) || (Array.isArray(id) && id.length > 0))) {
-      const queryBuilder = new QueryBuilder(params, "doc", "removed");
-      query = {
-        query: `
-        FOR doc IN ${queryBuilder.addBindVar(ids)}
-          REMOVE doc IN ${queryBuilder.addBindVar(collection.name, true)}
+      const queryBuilder = new QueryBuilder(params, "", "doc", "removed");
+      query = aql`
+        FOR doc IN ${ids}
+          REMOVE doc IN ${collection}
           LET removed = OLD
           ${queryBuilder.returnFilter}
-      `,
-        bindVars: queryBuilder.bindVars
-      };
+      `;
     } else {
-      const queryBuilder = new QueryBuilder(params, "doc", "removed");
-      const colRef = queryBuilder.addBindVar(collection.name, true);
-      query = {
-        query: `
-        FOR doc IN ${colRef}
-          ${queryBuilder.filter}
-          REMOVE doc IN ${colRef}
-          LET removed = OLD
-          ${queryBuilder.returnFilter}
-      `,
-        bindVars: queryBuilder.bindVars
-      };
+      const queryBuilder = new QueryBuilder(params, "", "doc", "removed");
+      query = aql.join(
+        [
+          aql`FOR doc IN ${collection}`,
+          queryBuilder.filter
+            ? aql.join([aql`FILTER`, queryBuilder.filter], " ")
+            : aql``,
+          aql`REMOVE doc IN ${collection}`,
+          aql`LET removed = OLD`,
+          queryBuilder.returnFilter,
+        ],
+        " "
+      );
     }
 
     return this._returnMap(database, query);
@@ -476,6 +549,8 @@ export class DbService {
   }
 }
 
-export default function ArangoDbService(options: IOptions): DbService | any {
-  return new DbService(options);
+export default function ArangoDbService<T>(
+  options: IOptions
+): DbService<T> | any {
+  return new DbService<T>(options);
 }

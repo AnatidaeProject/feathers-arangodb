@@ -1,10 +1,12 @@
 /*
 Extends the ArangoDB Database Class to offer helper functions.
  */
-import { Database, DocumentCollection } from "arangojs";
-import { Config } from "arangojs/lib/cjs/connection";
-import { Graph, GraphVertexCollection } from "arangojs/lib/cjs/graph";
-import { ArangoError } from "arangojs/lib/cjs/error";
+import { Database } from "arangojs/database";
+import { DocumentCollection, } from "arangojs/collection";
+import { View, ViewDescription } from "arangojs/view";
+import { Config } from "arangojs/connection";
+import { Graph, GraphVertexCollection } from "arangojs/graph";
+import { ArangoError } from "arangojs/error";
 
 export class AutoDatabse extends Database {
   constructor(config?: Config) {
@@ -41,11 +43,11 @@ export class AutoDatabse extends Database {
    * @param opts
    */
   async autoGraph(properties: any, opts?: any): Promise<Graph> {
-    const name = properties.name;
+    const name = opts.name;
     let graph = this.graph(name);
     const exists = await graph.exists();
     if (!exists) {
-      await graph.create(properties).catch((err: ArangoError) => {
+      await graph.create(properties, opts).catch((err: ArangoError) => {
         /* istanbul ignore next  Ignoring this type of error*/
         if (err.isArangoError && err.errorNum == 1207) {
           // If a database with the same name is created at the same time as another, this can cause a race condition.
@@ -69,13 +71,18 @@ export class AutoDatabse extends Database {
     graphRef?: Graph
   ): Promise<DocumentCollection | GraphVertexCollection> {
     /* istanbul ignore next  */
-    const collectionList = graphRef
+    const collectionNames = graphRef
       ? await graphRef.listVertexCollections()
-      : await this.collections();
+      : [];
+    const vertexCollections = !graphRef ? await this.collections() : [];
+
     /* istanbul ignore next  */
     if (
-      collectionList.map((item: any) => item.name).indexOf(collectionName) ===
-      -1
+      collectionNames.map((item: any) => item.name).indexOf(collectionName) ===
+        -1 ||
+      vertexCollections
+        .map((item: any) => item.name)
+        .indexOf(collectionName) === -1
     ) {
       /* istanbul ignore next  */
       if (graphRef) {
@@ -84,7 +91,7 @@ export class AutoDatabse extends Database {
         /* istanbul ignore next  */
         await this.collection(collectionName)
           .create({ waitForSync: true })
-          .catch(err => {
+          .catch((err) => {
             /* istanbul ignore next  Ignoring this type of error*/
             if (err.isArangoError && err.errorNum == 1207) {
               // If a collection with the same name is created at the same time as another, this can cause a race condition.
@@ -99,5 +106,26 @@ export class AutoDatabse extends Database {
     return graphRef
       ? graphRef.vertexCollection(collectionName)
       : this.collection(collectionName);
+  }
+
+  async autoView(view: string): Promise<View | undefined> {
+    if (view == null) 
+      return undefined;
+    const viewsList = await this.listViews();
+    /* istanbul ignore next  */
+    if (viewsList.findIndex((el: ViewDescription) => el.name == view) === -1) {
+      /* istanbul ignore next  ArangoDB Driver tests covered in driver*/
+      await this.createView(view).catch((err: ArangoError) => {
+        /* istanbul ignore next  Ignoring this type of error*/
+        if (err.isArangoError && err.errorNum == 1207) {
+          // If a database with the same name is created at the same time as another, this can cause a race condition.
+          // Ignore race conditions and continue.
+          return true;
+        } else {
+          throw err;
+        }
+      });
+    }
+    return this.view(view);
   }
 }
